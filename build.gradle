@@ -4,7 +4,7 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: "jacoco"
 
-sourceCompatibility = 1.5
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -26,3 +26,5 @@ jacocoTestReport {
         html.destination "${buildDir}/reports/jacoco/html"
     }
 }
+
+check.dependsOn jacocoTestReport

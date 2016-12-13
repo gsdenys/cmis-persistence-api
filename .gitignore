@@ -13,3 +13,4 @@ hs_err_pid*
 /cmis-persistence-api.iml
 /.idea/
 /.gradle/
+/jpm4j.jar
