@@ -2,6 +2,7 @@ group 'org.cmis.cpa'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: "jacoco"
 
 sourceCompatibility = 1.5
 
@@ -11,4 +12,17 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+jacoco {
+    toolVersion = "0.7.6.201602180812"
+    reportsDir = file("$buildDir/reports/jacoco")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled true
+        html.destination "${buildDir}/reports/jacoco/html"
+    }
 }
