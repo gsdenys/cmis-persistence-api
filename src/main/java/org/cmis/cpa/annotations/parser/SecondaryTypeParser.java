@@ -1,4 +1,4 @@
-package org.cmis.cpa.parser;
+package org.cmis.cpa.annotations.parser;
 
 /**
  * Created by gsdenys on 13/12/16.

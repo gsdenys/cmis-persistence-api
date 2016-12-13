@@ -1,9 +1,7 @@
-package org.cmis.cpa.parser;
+package org.cmis.cpa.annotations.parser;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by gsdenys on 13/12/16.
