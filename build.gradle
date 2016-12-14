@@ -11,6 +11,7 @@ repositories {
 }
 
 dependencies {
+    compile 'org.apache.chemistry.opencmis:chemistry-opencmis-client-impl:1.0.0'
     testCompile  'junit:junit:4.12'
 }
 

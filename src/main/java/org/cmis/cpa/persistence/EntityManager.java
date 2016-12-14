@@ -3,6 +3,7 @@ package org.cmis.cpa.persistence;
 import org.cmis.cpa.annotations.parser.DocumentTypeParser;
 import org.cmis.cpa.exception.CpaAnnotationException;
 import org.cmis.cpa.exception.CpaPersistenceException;
+import org.cmis.cpa.operations.CmisExec;
 
 /**
  * org.cmis.cpa.persistence
@@ -13,28 +14,18 @@ import org.cmis.cpa.exception.CpaPersistenceException;
  */
 public class EntityManager {
 
-    private String url;
-    private String user;
-    private String password;
-    private String repositoryId;
+    public static final String CPA_DEFAULT_REPOSITORY = "cpa-default-repository";
+
+    private CmisExec cmisExec;
 
     /**
      * Builder expose just as package-protected
      *
-     * @param url
-     *          the url of cmis
-     * @param user
-     *          the user that will be used as performer
-     * @param password
-     *          the user password
-     * @param repositoryId
-     *          the repository ID
+     * @param cmisExec
+     *          the cmis executor object
      */
-    EntityManager(String url, String user, String password, String repositoryId) {
-        this.user = user;
-        this.url = url;
-        this.password = password;
-        this.repositoryId = repositoryId;
+    EntityManager(CmisExec cmisExec) {
+        this.cmisExec = cmisExec;
     }
 
     /**

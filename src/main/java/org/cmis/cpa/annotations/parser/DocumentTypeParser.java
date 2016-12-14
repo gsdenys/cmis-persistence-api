@@ -9,9 +9,8 @@ import org.cmis.cpa.exception.CpaAnnotationException;
 public class DocumentTypeParser<T> implements AnnotationParser<T> {
     MetadataParser<T> metadataParser = new MetadataParser<T>();
 
-    @Override
     public void validate(T classBean) throws CpaAnnotationException {
-
         metadataParser.validate(classBean);
+
     }
 }

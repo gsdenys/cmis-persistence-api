@@ -15,6 +15,7 @@
  */
 package org.cmis.cpa.persistence;
 
+import org.cmis.cpa.exception.CpaConnectionException;
 import org.cmis.cpa.exception.CpaPersistenceException;
 
 import java.io.IOException;
@@ -52,11 +53,13 @@ public class Persistence {
      * Create a new {@link EntityManagerFactory} instance
      *
      * @param connName
-     *          the name of persistence CmisConnection
+     *          the name of persistence CmisExec
      * @return EntityManagerFactory
      *          the {@link EntityManagerFactory} instance
      */
-    public static EntityManagerFactory createEntityManagerFactory(final String connName) throws CpaPersistenceException {
+    public static EntityManagerFactory createEntityManagerFactory(final String connName)
+            throws CpaPersistenceException, CpaConnectionException {
+
         EntityManagerFactory emf = factoryStore.get(connName);
 
         if (emf != null) {
@@ -80,7 +83,7 @@ public class Persistence {
      * Load properties file
      *
      * @param connName
-     *          the name of persistence CmisConnection
+     *          the name of persistence CmisExec
      * @return Properties
      *          the connection properties file name
      */
