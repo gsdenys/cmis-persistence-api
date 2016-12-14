@@ -6,7 +6,7 @@ package org.cmis.cpa.exception;
  * This Error just will returned when the parser found any annotation error at any of the follow annotations
  * <ul>
  *     <li>
- *         {@link org.cmis.cpa.annotations.CPAConnection}
+ *         {@link CpaConnection}
  *     </li>
  *     <li>
  *         {@link org.cmis.cpa.annotations.DocumentType}
@@ -24,5 +24,23 @@ package org.cmis.cpa.exception;
  * @since 0.0.1
  */
 public class CpaAnnotationException extends Exception {
-    //nothing to do here
+    public CpaAnnotationException() {
+        super();
+    }
+
+    public CpaAnnotationException(String message) {
+        super(message);
+    }
+
+    public CpaAnnotationException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public CpaAnnotationException(Throwable cause) {
+        super(cause);
+    }
+
+    public CpaAnnotationException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
 }

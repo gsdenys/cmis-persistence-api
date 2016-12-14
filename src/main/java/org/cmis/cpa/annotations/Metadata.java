@@ -1,5 +1,10 @@
 package org.cmis.cpa.annotations;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 /**
  * A Metadata annotation definition
  *
@@ -17,6 +22,8 @@ package org.cmis.cpa.annotations;
  * @version 0.0.1
  * @since 0.0.1
  */
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
 public @interface Metadata {
 
     /**
