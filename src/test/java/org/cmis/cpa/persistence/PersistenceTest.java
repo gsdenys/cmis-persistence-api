@@ -15,9 +15,15 @@
  */
 package org.cmis.cpa.persistence;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
+import org.junit.runner.Runner;
+import org.mortbay.jetty.Connector;
+import org.mortbay.jetty.Server;
+import org.mortbay.jetty.bio.SocketConnector;
+import org.mortbay.jetty.webapp.WebAppContext;
+
+import javax.servlet.ServletException;
+import java.io.File;
 
 
 /**
@@ -28,10 +34,38 @@ import org.junit.Test;
  * @since 0.0.0
  */
 public class PersistenceTest {
-    @Before
-    public void setUp() throws Exception {
 
+    private static Server server;
+
+    @BeforeClass
+    public static void beforeClass() throws Exception {
+
+        server = new Server();
+        SocketConnector connector = new SocketConnector();
+        connector.setPort(8090);
+        server.setConnectors(new Connector[] { connector });
+        WebAppContext context = new WebAppContext();
+        context.setServer(server);
+        context.setContextPath("/cmis");
+
+        File file = new File("webapps/cmis.war");
+        context.setWar(file.getAbsolutePath());
+
+        server.addHandler(context);
+        /*Thread monitor = new MonitorThread();
+        monitor.start();*/
+        server.start();
+
+        //server.join();
+
+        int a=1;
     }
+
+    @AfterClass
+    public static void afterClass() throws Exception {
+        server.stop();
+    }
+
 
     /**
      * Test case for {@link Persistence#createEntityManagerFactory(String)}
@@ -39,6 +73,7 @@ public class PersistenceTest {
      */
     @Test
     public void createEntityManagerFactory() throws Exception {
+
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("sample");
         Assert.assertNotNull("The factory should be not null!", factory);
 

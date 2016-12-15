@@ -13,6 +13,10 @@ repositories {
 dependencies {
     compile 'org.apache.chemistry.opencmis:chemistry-opencmis-client-impl:1.0.0'
     testCompile  'junit:junit:4.12'
+    //testCompile 'org.mortbay.jetty:jetty-runner:8.1.16.v20140903'
+    testCompile 'org.eclipse.jetty:jetty-util:9.4.0.v20161208'
+    testCompile 'org.mortbay.jetty:jetty:6.1.26'
+
 }
 
 jacoco {

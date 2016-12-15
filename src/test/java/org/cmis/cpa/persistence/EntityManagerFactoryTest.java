@@ -14,18 +14,18 @@ import static org.junit.Assert.*;
 public class EntityManagerFactoryTest {
     EntityManagerFactory emf;
 
-    @Before
+    //@Before
     public void setUp() throws Exception {
         emf = Persistence.createEntityManagerFactory("sample");
     }
 
-    @Test
+    //@Test
     public void getEntityManager() throws Exception {
         EntityManager em = emf.getEntityManager();
         Assert.assertNotNull("The EntityManager shoud no be null", em);
     }
 
-    @Test
+    //@Test
     public void getEntityManager1() throws Exception {
         Properties prp = new Properties();
         prp.load(
