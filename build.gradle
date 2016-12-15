@@ -3,18 +3,31 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: "jacoco"
-
+//apply plugin: 'jetty'
+apply plugin: 'org.akhikhl.gretty'
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
 }
 
+//Gretty Embedded Jetty
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.akhikhl.gretty:gretty:+'
+    }
+}
+
+
 dependencies {
     compile 'org.apache.chemistry.opencmis:chemistry-opencmis-client-impl:1.0.0'
     testCompile  'junit:junit:4.12'
     //testCompile 'org.mortbay.jetty:jetty-runner:8.1.16.v20140903'
-    testCompile 'org.eclipse.jetty:jetty-util:9.4.0.v20161208'
+    //testCompile 'org.eclipse.jetty:jetty-util:9.4.0.v20161208'
     testCompile 'org.mortbay.jetty:jetty:6.1.26'
 
 }
@@ -31,6 +44,16 @@ jacocoTestReport {
         html.destination "${buildDir}/reports/jacoco/html"
     }
 }
+
+gretty {
+    port = 8080
+    contextPath = 'cmis'
+    servletContainer = 'jetty9' //tomcat7 or tomcat8
+}
+
+ farm {
+    webapp 'cmis.war'
+ }
 
 test {
     jacoco {

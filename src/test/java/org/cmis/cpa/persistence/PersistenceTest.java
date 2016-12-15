@@ -16,13 +16,11 @@
 package org.cmis.cpa.persistence;
 
 import org.junit.*;
-import org.junit.runner.Runner;
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.bio.SocketConnector;
 import org.mortbay.jetty.webapp.WebAppContext;
 
-import javax.servlet.ServletException;
 import java.io.File;
 
 
@@ -37,7 +35,7 @@ public class PersistenceTest {
 
     private static Server server;
 
-    @BeforeClass
+  //  @BeforeClass
     public static void beforeClass() throws Exception {
 
         server = new Server();
@@ -48,7 +46,7 @@ public class PersistenceTest {
         context.setServer(server);
         context.setContextPath("/cmis");
 
-        File file = new File("webapps/cmis.war");
+        File file = new File("cmis.war");
         context.setWar(file.getAbsolutePath());
 
         server.addHandler(context);
@@ -61,7 +59,7 @@ public class PersistenceTest {
         int a=1;
     }
 
-    @AfterClass
+   // @AfterClass
     public static void afterClass() throws Exception {
         server.stop();
     }
