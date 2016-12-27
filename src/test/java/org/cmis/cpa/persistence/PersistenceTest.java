@@ -15,11 +15,11 @@
  */
 package org.cmis.cpa.persistence;
 
+import com.github.gsdenys.CmisInMemoryRunner;
+import com.github.gsdenys.Configure;
 import org.junit.*;
-import org.mortbay.jetty.Connector;
-import org.mortbay.jetty.Server;
-import org.mortbay.jetty.bio.SocketConnector;
-import org.mortbay.jetty.webapp.WebAppContext;
+import org.junit.runner.RunWith;
+
 
 import java.io.File;
 
@@ -31,39 +31,9 @@ import java.io.File;
  * @version 0.0.0
  * @since 0.0.0
  */
+@RunWith(CmisInMemoryRunner.class)
+@Configure()
 public class PersistenceTest {
-
-    private static Server server;
-
-  //  @BeforeClass
-    public static void beforeClass() throws Exception {
-
-        server = new Server();
-        SocketConnector connector = new SocketConnector();
-        connector.setPort(8090);
-        server.setConnectors(new Connector[] { connector });
-        WebAppContext context = new WebAppContext();
-        context.setServer(server);
-        context.setContextPath("/cmis");
-
-        File file = new File("cmis.war");
-        context.setWar(file.getAbsolutePath());
-
-        server.addHandler(context);
-        /*Thread monitor = new MonitorThread();
-        monitor.start();*/
-        server.start();
-
-        //server.join();
-
-        int a=1;
-    }
-
-   // @AfterClass
-    public static void afterClass() throws Exception {
-        server.stop();
-    }
-
 
     /**
      * Test case for {@link Persistence#createEntityManagerFactory(String)}
@@ -80,5 +50,4 @@ public class PersistenceTest {
 
         Assert.assertSame("The factory and factory2 should be the same", factory, factory2);
     }
-
 }

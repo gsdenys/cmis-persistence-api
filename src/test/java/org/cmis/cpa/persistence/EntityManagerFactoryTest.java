@@ -1,8 +1,11 @@
 package org.cmis.cpa.persistence;
 
+import com.github.gsdenys.CmisInMemoryRunner;
+import com.github.gsdenys.Configure;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.Properties;
 
@@ -11,21 +14,23 @@ import static org.junit.Assert.*;
 /**
  * Created by gsdenys on 14/12/16.
  */
+@RunWith(CmisInMemoryRunner.class)
+@Configure(port = 8080)
 public class EntityManagerFactoryTest {
     EntityManagerFactory emf;
 
-    //@Before
+    @Before
     public void setUp() throws Exception {
         emf = Persistence.createEntityManagerFactory("sample");
     }
 
-    //@Test
+    @Test
     public void getEntityManager() throws Exception {
         EntityManager em = emf.getEntityManager();
         Assert.assertNotNull("The EntityManager shoud no be null", em);
     }
 
-    //@Test
+    @Test
     public void getEntityManager1() throws Exception {
         Properties prp = new Properties();
         prp.load(

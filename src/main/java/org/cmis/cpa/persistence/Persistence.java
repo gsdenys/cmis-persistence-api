@@ -17,6 +17,8 @@ package org.cmis.cpa.persistence;
 
 import org.cmis.cpa.exception.CpaConnectionException;
 import org.cmis.cpa.exception.CpaPersistenceException;
+import org.cmis.cpa.exception.CpaRuntimeException;
+import org.cmis.cpa.utils.PropertiesConnection;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -33,12 +35,11 @@ import java.util.Properties;
  */
 public class Persistence {
 
-    private final static String URL = "org.cmis.cpa.url";
-    private final static String USER = "org.cmis.cpa.user";
-    private final static String PASSWRD = "org.cmis.cpa.password";
-    private final static String REPOSITORY_ID = "org.cmis.cpa.repository";
-
-    private final static String PROPERTIES_FILE_SUFIX = "-cmis.properties";
+    private final static String URL = "cpa.url";
+    private final static String USER = "cpa.user";
+    private final static String PASSWRD = "cpa.password";
+    private final static String REPOSITORY_ID = "cpa.repository";
+    private final static String REPOSITORIES = "cpa.repositories";
 
 
     private static Map<String, EntityManagerFactory> factoryStore;
@@ -58,16 +59,17 @@ public class Persistence {
      *          the {@link EntityManagerFactory} instance
      */
     public static EntityManagerFactory createEntityManagerFactory(final String connName)
-            throws CpaPersistenceException, CpaConnectionException {
+            throws CpaPersistenceException, CpaConnectionException, CpaRuntimeException {
 
+        PropertiesConnection pCon = new PropertiesConnection();
+
+        //try to get an entity manager already created.
         EntityManagerFactory emf = factoryStore.get(connName);
-
         if (emf != null) {
             return emf;
         }
 
-        Persistence persistence = new Persistence();
-        Properties properties = persistence.loadPropertiesFile(connName);
+        Properties properties = pCon.loadPropertiesFile(connName);
         EntityManagerFactory factory = new EntityManagerFactory(
                 properties.getProperty(URL),
                 properties.getProperty(USER),
@@ -75,33 +77,15 @@ public class Persistence {
                 properties.getProperty(REPOSITORY_ID)
         );
 
+        //set to the factory all mapped repositories with their ids and alias
+        String repos = properties.getProperty(REPOSITORIES);
+        if (repos != null) {
+            Map<String, String> map = pCon.stringToMap(properties.getProperty(REPOSITORIES));
+            factory.setMappedRepository(map);
+        }
+
         factoryStore.put(connName, factory);
         return factory;
-    }
-
-    /**
-     * Load properties file
-     *
-     * @param connName
-     *          the name of persistence CmisExec
-     * @return Properties
-     *          the connection properties file name
-     */
-    private Properties loadPropertiesFile(String connName) throws CpaPersistenceException {
-        String fileName = connName + PROPERTIES_FILE_SUFIX;
-
-        Properties properties = new Properties();
-        try {
-            properties.load(
-                    this.getClass().getClassLoader().getResourceAsStream(fileName)
-            );
-            return properties;
-        } catch (IOException ioException) {
-            throw new CpaPersistenceException(
-                    "The file " + connName + PROPERTIES_FILE_SUFIX + " not found at classpath.",
-                    ioException
-            );
-        }
     }
 
 }
