@@ -142,7 +142,7 @@ public interface EntityManager {
      * @return Map the map containing all entity properties
      * @throws CpaAnnotationException error that will occur case the elements has no correctly annotated
      */
-    <E> Map<String, Object> getProperties(final E entity) throws CpaAnnotationException;
+    <E> Map<String, Object> getProperties(final E entity) throws CpaAnnotationException, CpaRuntimeException;
 
 
     /**
@@ -154,7 +154,7 @@ public interface EntityManager {
      * @return Map the map containing all entity properties
      * @throws CpaAnnotationException error that will occur case the elements has no correctly annotated
      */
-    <E> Map<String, Object> getProperties(final E entity, final Boolean refresBefore) throws CpaAnnotationException;
+    <E> Map<String, Object> getProperties(final E entity, final Boolean refresBefore) throws CpaAnnotationException, CpaRuntimeException;
 
     /**
      * Set the properties passed by parameter to the entity. Case no properties can be mapped with some element an
