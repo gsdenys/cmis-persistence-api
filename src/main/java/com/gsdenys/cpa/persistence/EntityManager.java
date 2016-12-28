@@ -2,10 +2,11 @@ package com.gsdenys.cpa.persistence;
 
 import com.gsdenys.cpa.exception.CpaAnnotationException;
 import com.gsdenys.cpa.exception.CpaPersistenceException;
+import com.gsdenys.cpa.exception.CpaRuntimeException;
 
-/**
- * Created by gsdenys on 28/12/16.
- */
+import java.util.Map;
+
+
 public interface EntityManager {
 
     /**
@@ -36,7 +37,7 @@ public interface EntityManager {
      * @throws CpaPersistenceException some errors during persistence action
      * @throws CpaAnnotationException  some error that occur when try to persist an object with annotation errors
      */
-    <E> void persist(E entity, Boolean lockMode) throws CpaPersistenceException, CpaAnnotationException;
+    <E> void persist(E entity, final Boolean lockMode) throws CpaPersistenceException, CpaAnnotationException;
 
     /**
      * Refresh the state of the instance from the CMIS repository, overwriting changes made to the entity, if any.
@@ -68,7 +69,7 @@ public interface EntityManager {
      * @param <E>      some element
      * @throws CpaAnnotationException error that will occur case the entity has no correctly annotated
      */
-    <E> void lock(E entity, Boolean lockMode) throws CpaAnnotationException;
+    <E> void lock(E entity, final Boolean lockMode) throws CpaAnnotationException;
 
     /**
      * Check if the entity is in lockedMode (checkout)
@@ -78,7 +79,7 @@ public interface EntityManager {
      * @return boolean <b>true</b> case the entity is locked, other else <b>false</b>
      * @throws CpaAnnotationException error that will occur case the entity has no correctly annotated
      */
-    <E> boolean isLocked(E entity) throws CpaAnnotationException;
+    <E> boolean isLocked(final E entity) throws CpaAnnotationException;
 
     /**
      * Check if the entity is in lockedMode (checkout) by <b>userName</b>
@@ -89,7 +90,7 @@ public interface EntityManager {
      * @return boolean  <b>true</b> case the entity is locked by <b>userName</b>, other else <b>false</b>
      * @throws CpaAnnotationException error that will occur case the entity has no correctly annotated
      */
-    <E> boolean isLockedBy(E entity, String userName) throws CpaAnnotationException;
+    <E> boolean isLockedBy(final E entity, final String userName) throws CpaAnnotationException;
 
     /**
      * Get the user name of the user that had locked the entity
@@ -99,7 +100,7 @@ public interface EntityManager {
      * @return String the user name
      * @throws CpaAnnotationException error that will occur case the entity has no correctly annotated
      */
-    <E> String lockedBy(E entity) throws CpaAnnotationException;
+    <E> String lockedBy(final E entity) throws CpaAnnotationException;
 
     /**
      * Remove the entity instance of the CMIS repository.
@@ -120,7 +121,7 @@ public interface EntityManager {
      * @throws CpaAnnotationException  error that will occur case the elements has no correctly annotated
      * @throws CpaPersistenceException some error that can be occur during the move process
      */
-    <E> void move(E entity, E folderDest) throws CpaAnnotationException, CpaPersistenceException;
+    <E> void move(E entity, final E folderDest) throws CpaAnnotationException, CpaPersistenceException;
 
     /**
      * Move the entity from the actual folder to another one.
@@ -131,7 +132,39 @@ public interface EntityManager {
      * @throws CpaAnnotationException  error that will occur case the elements has no correctly annotated
      * @throws CpaPersistenceException some error that can be occur during the copy process
      */
-    <E> void copy(E entity, E folderDest) throws CpaAnnotationException, CpaPersistenceException;
+    <E> void copy(E entity, final E folderDest) throws CpaAnnotationException, CpaPersistenceException;
+
+    /**
+     * Obtain all properties from an entity in their actual state.
+     *
+     * @param entity antity to be converted to a map
+     * @param <E>    some element
+     * @return Map the map containing all entity properties
+     * @throws CpaAnnotationException error that will occur case the elements has no correctly annotated
+     */
+    <E> Map<String, Object> getProperties(final E entity) throws CpaAnnotationException;
 
 
+    /**
+     * Obtain all properties from an entity. Case the parameter <b>refresBefore</b> is {@link Boolean#TRUE} then
+     * this method will perform the {@link EntityManager#refresh(Object)} before the method execution
+     *
+     * @param entity antity to be converted to a map
+     * @param <E>    some element
+     * @return Map the map containing all entity properties
+     * @throws CpaAnnotationException error that will occur case the elements has no correctly annotated
+     */
+    <E> Map<String, Object> getProperties(final E entity, final Boolean refresBefore) throws CpaAnnotationException;
+
+    /**
+     * Set the properties passed by parameter to the entity. Case no properties can be mapped with some element an
+     * {@link CpaRuntimeException} will be throw
+     *
+     * @param entity     the entity to have properties setted
+     * @param properties the properties to be setted
+     * @param <E>        some elements
+     * @throws CpaAnnotationException error that will occur case the elements has no correctly annotated
+     * @throws CpaRuntimeException    when any properties cannot be mapped at the entity
+     */
+    <E> void setProperties(E entity, final Map<String, Object> properties) throws CpaAnnotationException, CpaRuntimeException;
 }

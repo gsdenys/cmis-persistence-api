@@ -12,6 +12,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface ParentID {
-    
+public @interface Parent {
+
+    ElementAssociationType type() default ElementAssociationType.ID;
 }
