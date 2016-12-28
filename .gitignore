@@ -16,4 +16,4 @@ hs_err_pid*
 /jpm4j.jar
 /classes/
 
-!/gradle/wrapper/gradle-wrapper.properties
+!/gradle/wrapper/gradle-wrapper.jar

@@ -19,6 +19,7 @@ dependencies {
 
 }
 
+//coverage
 jacoco {
     toolVersion = "0.7.6.201602180812"
     reportsDir = file("$buildDir/reports/jacoco")
@@ -32,11 +33,71 @@ jacocoTestReport {
     }
 }
 
-/*
-test {
-    jacoco {
-        append = false
-        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
-        classDumpFile = file("$buildDir/jacoco/classpathdumps")
+
+//maven central upload
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives jar
+
+    archives javadocJar
+    archives sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: System.env.USER ?: ossrhUsername, password: System.env.PASSWORD ?: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: System.env.USER ?: ossrhUsername, password: System.env.PASSWORD ?: ossrhPassword)
+            }
+
+            pom.project {
+                name 'cmis-persistence-api'
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'CPA - CMIS Persistence API - The esiest way to use CMIS integration for java programers'
+                url 'http://github.com/gsdenys/cmis-persistence-api'
+
+                scm {
+                    connection 'scm:git:git@github.com:gsdenys/cmis-persistence-api.git'
+                    developerConnection 'scm:git:git@github.com:gsdenys/cmis-persistence-api.git'
+                    url 'git@github.com:gsdenys/cmis-persistence-api.git'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'gsdenys'
+                        name 'Denys G. Santos'
+                        email 'gsdenys@gmail.com'
+                    }
+                }
+            }
+        }
     }
-}*/
+}
