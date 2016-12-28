@@ -39,7 +39,13 @@ public class EntityManager {
      */
     public <E> void persist(E obj) throws CpaPersistenceException, CpaAnnotationException {
         DocumentTypeParser<E> typeParser = new DocumentTypeParser<E>();
+
+        //validate object before try to persist
         typeParser.validate(obj);
 
+        //persist Object at cmis
+        this.cmisExec.persist(obj);
     }
+
+
 }
