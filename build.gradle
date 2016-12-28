@@ -2,6 +2,8 @@ group 'org.cmis.cpa'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'signing'
 apply plugin: "jacoco"
 
 sourceCompatibility = 1.8
