@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This is a factory of {@link EntityManager}, which aims to manage the creation of {@link EntityManager} to each
+ * This is a factory of {@link EntityManagerImpl}, which aims to manage the creation of {@link EntityManagerImpl} to each
  * repository existent in content management
  *
  * @author
@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class EntityManagerFactory {
 
-    private Map<String, EntityManager> entityManagerMap = new HashMap<>();
+    private Map<String, EntityManagerImpl> entityManagerMap = new HashMap<>();
 
     /**
      * This CMIS field just has a basic values that can be used just to execute a search by repositories
@@ -69,38 +69,38 @@ public class EntityManagerFactory {
 
         this.validateConnection(exec);
 
-        EntityManager em = new EntityManager(exec);
+        EntityManagerImpl em = new EntityManagerImpl(exec);
 
         if (repositoryId != null) {
             if (this.entityManagerMap.isEmpty()) {
-                this.entityManagerMap.put(EntityManager.CPA_DEFAULT_REPOSITORY, em);
+                this.entityManagerMap.put(EntityManagerImpl.CPA_DEFAULT_REPOSITORY, em);
             }
 
             this.entityManagerMap.put(repositoryId, em);
         } else {
-            this.entityManagerMap.put(EntityManager.CPA_DEFAULT_REPOSITORY, em);
+            this.entityManagerMap.put(EntityManagerImpl.CPA_DEFAULT_REPOSITORY, em);
         }
     }
 
     /**
-     * Get the {@link EntityManager}
+     * Get the {@link EntityManagerImpl}
      *
-     * @return EntityManager
-     * The {@link EntityManager}
+     * @return EntityManagerImpl
+     * The {@link EntityManagerImpl}
      */
-    public EntityManager getEntityManager() {
-        return this.entityManagerMap.get(EntityManager.CPA_DEFAULT_REPOSITORY);
+    public EntityManagerImpl getEntityManager() {
+        return this.entityManagerMap.get(EntityManagerImpl.CPA_DEFAULT_REPOSITORY);
     }
 
     /**
-     * Get the {@link EntityManager} based on repository ID
+     * Get the {@link EntityManagerImpl} based on repository ID
      *
      * @param repositoryId the repository ID
-     * @return EntityManager
-     * the {@link EntityManager}
+     * @return EntityManagerImpl
+     * the {@link EntityManagerImpl}
      */
-    public EntityManager getEntityManager(String repositoryId) throws CpaRuntimeException, CpaConnectionException {
-        EntityManager em = this.entityManagerMap.get(repositoryId);
+    public EntityManagerImpl getEntityManager(String repositoryId) throws CpaRuntimeException, CpaConnectionException {
+        EntityManagerImpl em = this.entityManagerMap.get(repositoryId);
 
         if (em != null) {
             return em;
@@ -111,7 +111,7 @@ public class EntityManagerFactory {
 
         this.validateConnection(exec);
 
-        em = new EntityManager(exec);
+        em = new EntityManagerImpl(exec);
 
         this.entityManagerMap.put(repositoryId, em);
 

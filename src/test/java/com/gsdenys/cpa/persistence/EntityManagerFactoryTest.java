@@ -2,7 +2,6 @@ package com.gsdenys.cpa.persistence;
 
 import com.github.gsdenys.CmisInMemoryRunner;
 import com.github.gsdenys.Configure;
-import com.gsdenys.cpa.operations.CmisExec;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,17 +24,17 @@ public class EntityManagerFactoryTest {
 
     @Test
     public void getEntityManager() throws Exception {
-        EntityManager em = emf.getEntityManager();
-        Assert.assertNotNull("The EntityManager shoud no be null", em);
+        EntityManagerImpl em = emf.getEntityManager();
+        Assert.assertNotNull("The EntityManagerImpl shoud no be null", em);
     }
 
     @Test
     public void getEntityManagerString() throws Exception {
-        EntityManager em = emf.getEntityManager();
-        EntityManager em1 = emf.getEntityManager("A1");
+        EntityManagerImpl em = emf.getEntityManager();
+        EntityManagerImpl em1 = emf.getEntityManager("A1");
 
-        Assert.assertNotNull("The EntityManager shoud no be null", em1);
-        Assert.assertNotNull("The EntityManager shoud no be null", em);
+        Assert.assertNotNull("The EntityManagerImpl shoud no be null", em1);
+        Assert.assertNotNull("The EntityManagerImpl shoud no be null", em);
         Assert.assertSame("The entities shoul be the same", em, em1);
     }
 
