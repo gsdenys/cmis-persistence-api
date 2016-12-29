@@ -47,7 +47,12 @@ public class Persistence {
         factoryStore = new HashMap<>();
     }
 
-    private Persistence() {}
+    /**
+     * Default builder as private to prevent the class initialization
+     */
+    private Persistence() {
+        //nothing to do here
+    }
 
     /**
      * Create a new {@link EntityManagerFactory} instance

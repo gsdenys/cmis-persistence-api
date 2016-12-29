@@ -16,30 +16,46 @@
 package com.gsdenys.cpa.exception;
 
 /**
- * org.cmis.cpa.exception
+ * A Generic {@link Exception} that can occur during the persistence execution
  *
- * @author gsdenys
- * @version 0.0.0
- * @since 0.0.0
+ * @author Denys G. Santos (gsdenys@gmail.com)
+ * @version 0.0.1
+ * @since 0.0.1
  */
 public class CpaPersistenceException extends Exception {
+
+    /**
+     * Default Builder
+     */
     public CpaPersistenceException() {
         super();
     }
 
+    /**
+     * Builder
+     *
+     * @param message the error message
+     */
     public CpaPersistenceException(String message) {
         super(message);
     }
 
+    /**
+     * Builder
+     *
+     * @param message the error message
+     * @param cause   the cause of the error
+     */
     public CpaPersistenceException(String message, Throwable cause) {
         super(message, cause);
     }
 
+    /**
+     * Builder
+     *
+     * @param cause the cause of the error
+     */
     public CpaPersistenceException(Throwable cause) {
         super(cause);
-    }
-
-    protected CpaPersistenceException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
     }
 }
