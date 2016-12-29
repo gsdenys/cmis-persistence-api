@@ -62,6 +62,20 @@ public class CmisExecTest {
         );
 
         Assert.assertNotNull("The exec should not be null", exec);
+
+        //test fail when try to create a CMIS EXEC with repository id = null
+        try {
+            CmisExec exec1 = new CmisExec(
+                    properties.getProperty(Persistence.PROP_URL),
+                    properties.getProperty(Persistence.PROP_USER),
+                    properties.getProperty(Persistence.PROP_PASSWRD),
+                    null
+            );
+
+            Assert.fail("The execution should throws an error: the repositoryId = null");
+        } catch (Exception e) {
+            //nothing to do here
+        }
     }
 
     @Test

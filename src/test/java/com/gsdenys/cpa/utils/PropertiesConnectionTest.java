@@ -44,7 +44,7 @@ public class PropertiesConnectionTest {
 
 
         try {
-            Properties propError = pc.loadPropertiesFile("sample");
+            Properties propError = pc.loadPropertiesFile("error");
             Assert.fail("The method should be not be able do load a properties from a non existent file");
         } catch (CpaPersistenceException e) {
             //nothing to do
