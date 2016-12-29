@@ -20,8 +20,6 @@ import java.util.Map;
  */
 public class EntityManagerImpl implements EntityManager {
 
-    public static final String CPA_DEFAULT_REPOSITORY = "cpa-default-repository";
-
     private CmisExec cmisExec;
 
     /**
@@ -30,7 +28,7 @@ public class EntityManagerImpl implements EntityManager {
      * @param cmisExec
      *          the cmis executor object
      */
-    EntityManagerImpl(CmisExec cmisExec) {
+    protected EntityManagerImpl(CmisExec cmisExec) {
         this.cmisExec = cmisExec;
     }
 
@@ -42,7 +40,7 @@ public class EntityManagerImpl implements EntityManager {
         typeParser.validate(entity);
 
         //persist Object at cmis
-        this.cmisExec.persist(entity);
+        this.cmisExec.getPersistExec().persist(entity);
     }
 
     @Override
@@ -140,6 +138,7 @@ public class EntityManagerImpl implements EntityManager {
             Class clazz = entity.getClass();
             try {
                 Field field = clazz.getDeclaredField(key);
+                field.setAccessible(true);
                 field.set(entity, value);
             } catch (NoSuchFieldException e) {
                 throw new CpaRuntimeException(

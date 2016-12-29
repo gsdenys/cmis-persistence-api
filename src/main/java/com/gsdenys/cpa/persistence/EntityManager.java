@@ -9,6 +9,8 @@ import java.util.Map;
 
 public interface EntityManager {
 
+    final String CPA_DEFAULT_REPOSITORY = "cpa-default-repository";
+
     /**
      * Make an instance managed and persistent. In case of the entity is in checkout mode the checkin
      * operation will be performed.
@@ -157,7 +159,7 @@ public interface EntityManager {
     <E> Map<String, Object> getProperties(final E entity, final Boolean refresBefore) throws CpaAnnotationException, CpaRuntimeException;
 
     /**
-     * Set the properties passed by parameter to the entity. Case no properties can be mapped with some element an
+     * Set the properties passed by parameter to the entity. Case no properties can be mapped with any element an
      * {@link CpaRuntimeException} will be throw
      *
      * @param entity     the entity to have properties setted

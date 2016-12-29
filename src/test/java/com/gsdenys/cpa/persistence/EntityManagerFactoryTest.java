@@ -24,14 +24,14 @@ public class EntityManagerFactoryTest {
 
     @Test
     public void getEntityManager() throws Exception {
-        EntityManagerImpl em = emf.getEntityManager();
+        EntityManager em = emf.getEntityManager();
         Assert.assertNotNull("The EntityManagerImpl shoud no be null", em);
     }
 
     @Test
     public void getEntityManagerString() throws Exception {
-        EntityManagerImpl em = emf.getEntityManager();
-        EntityManagerImpl em1 = emf.getEntityManager("A1");
+        EntityManager em = emf.getEntityManager();
+        EntityManager em1 = emf.getEntityManager("A1");
 
         Assert.assertNotNull("The EntityManagerImpl shoud no be null", em1);
         Assert.assertNotNull("The EntityManagerImpl shoud no be null", em);

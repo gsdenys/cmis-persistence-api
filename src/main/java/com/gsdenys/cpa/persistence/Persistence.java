@@ -34,11 +34,11 @@ import java.util.Properties;
  */
 public class Persistence {
 
-    private final static String URL = "cpa.url";
-    private final static String USER = "cpa.user";
-    private final static String PASSWRD = "cpa.password";
-    private final static String REPOSITORY_ID = "cpa.repository";
-    private final static String REPOSITORIES = "cpa.repositories";
+    public final static String PROP_URL = "cpa.url";
+    public final static String PROP_USER = "cpa.user";
+    public final static String PROP_PASSWRD = "cpa.password";
+    public final static String PROP_REPOSITORY_ID = "cpa.repository";
+    public final static String PROP_REPOSITORIES = "cpa.repositories";
 
 
     private static Map<String, EntityManagerFactory> factoryStore;
@@ -71,16 +71,16 @@ public class Persistence {
         //set properties at properties that be used to create a connection
         Properties properties = pCon.loadPropertiesFile(connName);
         EntityManagerFactory factory = new EntityManagerFactory(
-                properties.getProperty(URL),
-                properties.getProperty(USER),
-                properties.getProperty(PASSWRD),
-                properties.getProperty(REPOSITORY_ID)
+                properties.getProperty(PROP_URL),
+                properties.getProperty(PROP_USER),
+                properties.getProperty(PROP_PASSWRD),
+                properties.getProperty(PROP_REPOSITORY_ID)
         );
 
         //set to the factory all mapped repositories with their ids and alias
-        String repos = properties.getProperty(REPOSITORIES);
+        String repos = properties.getProperty(PROP_REPOSITORIES);
         if (repos != null) {
-            Map<String, String> map = pCon.stringToMap(properties.getProperty(REPOSITORIES));
+            Map<String, String> map = pCon.stringToMap(properties.getProperty(PROP_REPOSITORIES));
             factory.setMappedRepository(map);
         }
 

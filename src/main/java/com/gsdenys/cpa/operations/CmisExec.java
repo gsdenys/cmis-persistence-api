@@ -30,6 +30,9 @@ public class CmisExec implements Cloneable {
 
     private SessionFactory factory;
 
+    //executors
+    private RepositoryExec repositoryExec;
+    private PersistExec persistExec;
 
     /**
      * Default Builder
@@ -52,6 +55,8 @@ public class CmisExec implements Cloneable {
         }
 
         this.repositoryId = repositoryId;
+
+        this.createExecutors();
     }
 
     /**
@@ -66,8 +71,14 @@ public class CmisExec implements Cloneable {
         parameter.put(SessionParameter.PASSWORD, password);
         parameter.put(SessionParameter.ATOMPUB_URL, url);
         parameter.put(SessionParameter.BINDING_TYPE, BindingType.ATOMPUB.value());
+
+        this.createExecutors();
     }
 
+    private void createExecutors() {
+        this.repositoryExec = new RepositoryExec(this);
+        this.persistExec = new PersistExec(this);
+    }
 
     @Override
     public CmisExec clone() throws CloneNotSupportedException {
@@ -103,28 +114,17 @@ public class CmisExec implements Cloneable {
     }
 
     /**
-     * List all CMIS Repositories
-     *
-     * @return List
-     * a repositories list
-     */
-    public List<Repository> listRepositories() throws CmisConnectionException {
-        this.createFactory();
-        return factory.getRepositories(parameter);
-    }
-
-    /**
      * Get CMIS Session
      *
      * @return Session
      * the cmis session
      */
-    public Session getSession() {
+    protected Session getSession() {
         this.createFactory();
 
         if (parameter.get(SessionParameter.REPOSITORY_ID) == null) {
             if (this.repositoryId == null) {
-                this.repositoryId = this.listRepositories().get(0).getId();
+                this.repositoryId = this.repositoryExec.listRepositories().get(0).getId();
             }
 
             this.parameter.put(SessionParameter.REPOSITORY_ID, this.repositoryId);
@@ -134,31 +134,54 @@ public class CmisExec implements Cloneable {
     }
 
 
-    /**
-     * Persist entity at the repository
-     *
-     * @param entity
-     * @param <E>
-     * @return
-     */
-    public <E> E persist(E entity) {
+    protected Map<String, String> getParameter() {
+        return parameter;
+    }
 
-        //TODO implementar
+    protected String getRepositoryId() {
+        return repositoryId;
+    }
 
-        return entity;
+    protected SessionFactory getFactory() {
+        if(this.factory != null) {
+            return this.factory;
+        }
+
+        this.createFactory();
+        return this.factory;
     }
 
     /**
-     * create a CPQL query
+     * Get executor for repository methods
      *
-     * @param query a cpql query string
-     * @return Query
-     * a query object
+     * @return RepositoryExec the executor for the repository
      */
-    public Query createQuery(String query) {
+    public RepositoryExec getRepositoryExec() {
+        return repositoryExec;
+    }
 
-        //TODO implementar
+    public PersistExec getPersistExec() {
+        return persistExec;
+    }
 
-        return new Query();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CmisExec exec = (CmisExec) o;
+
+        if (!parameter.equals(exec.parameter)) return false;
+        if (repositoryId != null ? !repositoryId.equals(exec.repositoryId) : exec.repositoryId != null) return false;
+        return factory != null ? factory.equals(exec.factory) : exec.factory == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = parameter.hashCode();
+        result = 31 * result + (repositoryId != null ? repositoryId.hashCode() : 0);
+        result = 31 * result + (factory != null ? factory.hashCode() : 0);
+        return result;
     }
 }
