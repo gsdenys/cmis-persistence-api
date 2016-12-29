@@ -1,18 +1,14 @@
 package com.gsdenys.cpa.operations;
 
+import com.gsdenys.cpa.exception.CpaRuntimeException;
 import com.sun.istack.NotNull;
-import org.apache.chemistry.opencmis.client.api.Repository;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.client.api.SessionFactory;
 import org.apache.chemistry.opencmis.client.runtime.SessionFactoryImpl;
 import org.apache.chemistry.opencmis.commons.SessionParameter;
 import org.apache.chemistry.opencmis.commons.enums.BindingType;
-import org.apache.chemistry.opencmis.commons.exceptions.CmisConnectionException;
-import com.gsdenys.cpa.exception.CpaRuntimeException;
-import com.gsdenys.cpa.persistence.Query;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

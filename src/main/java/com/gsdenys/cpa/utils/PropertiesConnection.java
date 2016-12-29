@@ -55,7 +55,7 @@ public class PropertiesConnection {
         String[] strings = repoString.split(",");
 
         for (String str : strings) {
-            Matcher matcher = pattern.matcher(str);;
+            Matcher matcher = pattern.matcher(str);
 
             if(matcher.matches()){
                 String id = matcher.group(1);
