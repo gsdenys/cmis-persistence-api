@@ -16,9 +16,6 @@ import java.util.Properties;
 
 import static org.junit.Assert.fail;
 
-/**
- * Created by gsdenys on 24/12/16.
- */
 @RunWith(CmisInMemoryRunner.class)
 @Configure
 public class CmisExecTest {
@@ -141,5 +138,12 @@ public class CmisExecTest {
         RepositoryExec repositoryExec = this.cmisExec.getRepositoryExec();
 
         Assert.assertNotNull("The RepositoryExec should not be null", repositoryExec);
+    }
+
+    @Test
+    public void equals() throws Exception {
+        CmisExec exec = this.cmisExec.clone();
+
+        Assert.assertTrue("The cmisExec and Exec Should Be equals", exec.equals(this.cmisExec));
     }
 }

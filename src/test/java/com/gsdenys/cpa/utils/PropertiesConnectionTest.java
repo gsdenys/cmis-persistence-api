@@ -15,6 +15,7 @@
  */
 package com.gsdenys.cpa.utils;
 
+import com.gsdenys.cpa.exception.CpaPersistenceException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -40,6 +41,15 @@ public class PropertiesConnectionTest {
         Assert.assertEquals("The user should be test", prop.getProperty("cpa.password"), "test");
         Assert.assertEquals("The user should be test", prop.getProperty("cpa.repository"), "A1");
         Assert.assertEquals("The user should be test", prop.getProperty("cpa.repositories"), "A2[trash],A3[RM]");
+
+
+        try {
+            Properties propError = pc.loadPropertiesFile("sample");
+            Assert.fail("The method should be not be able do load a properties from a non existent file");
+        } catch (CpaPersistenceException e) {
+            //nothing to do
+        }
+
     }
 
     @Test
