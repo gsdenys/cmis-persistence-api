@@ -29,8 +29,8 @@ import java.lang.annotation.Target;
 public @interface Metadata {
 
     /**
-     * The name of metadata. by definition in the majority of content management software its use a
-     * patter like <code>cmis:title</code>
+     * The name of metadata. by definition, in the majority of content management software, its use a
+     * pattern like <code>cmis:title</code>
      *
      * @return string metadata name
      */

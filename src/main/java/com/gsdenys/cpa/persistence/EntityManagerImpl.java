@@ -1,6 +1,5 @@
 package com.gsdenys.cpa.persistence;
 
-import com.gsdenys.cpa.annotations.parser.DocumentTypeParser;
 import com.gsdenys.cpa.exception.CpaAnnotationException;
 import com.gsdenys.cpa.exception.CpaPersistenceException;
 import com.gsdenys.cpa.exception.CpaRuntimeException;
@@ -32,11 +31,6 @@ public class EntityManagerImpl implements EntityManager {
 
     @Override
     public <E> void persist(E entity) throws CpaPersistenceException, CpaAnnotationException {
-        DocumentTypeParser<E> typeParser = new DocumentTypeParser<E>();
-
-        //validate object before try to persist
-        typeParser.validate(entity);
-
         //persist Object at cmis
         this.cmisExec.getPersistExec().persist(entity);
     }

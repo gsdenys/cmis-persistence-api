@@ -12,5 +12,4 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface Parent {
 
-    ElementAssociationType type() default ElementAssociationType.ID;
 }

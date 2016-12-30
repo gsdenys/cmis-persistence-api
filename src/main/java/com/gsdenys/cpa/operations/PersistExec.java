@@ -1,8 +1,10 @@
 package com.gsdenys.cpa.operations;
 
+import com.gsdenys.cpa.annotations.ID;
 import com.gsdenys.cpa.annotations.Metadata;
 import com.gsdenys.cpa.exception.CpaAnnotationException;
 import com.gsdenys.cpa.exception.CpaRuntimeException;
+import com.gsdenys.cpa.persistence.EntityManager;
 import com.sun.istack.NotNull;
 
 import java.lang.reflect.Field;
@@ -34,8 +36,16 @@ public class PersistExec {
      * @return
      */
     public <E> E persist(E entity) {
+        String id = null;
+        String parentId = null;
 
-        // Map<String, Object> props = this.cmisExec.
+
+        Field[] fields = entity.getClass().getDeclaredFields();
+        for (Field field : fields){
+
+
+
+        }
 
         //TODO implementar
 

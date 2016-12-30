@@ -2,7 +2,10 @@ package com.gsdenys.cpa.persistence;
 
 import com.github.gsdenys.CmisInMemoryRunner;
 import com.github.gsdenys.Configure;
-import com.gsdenys.cpa.annotations.*;
+import com.gsdenys.cpa.annotations.DocumentType;
+import com.gsdenys.cpa.annotations.ID;
+import com.gsdenys.cpa.annotations.Metadata;
+import com.gsdenys.cpa.annotations.Parent;
 import com.gsdenys.cpa.exception.CpaRuntimeException;
 import org.junit.Assert;
 import org.junit.Before;
@@ -130,7 +133,7 @@ class Document {
     @ID
     String id;
 
-    @Parent(type = ElementAssociationType.ID)
+    @Parent
     String parentId;
 
     @Metadata(name = "cmis:name", mandatory = true)

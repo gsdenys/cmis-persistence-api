@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.gsdenys.cpa.annotations.parser;
+package com.gsdenys.cpa.parser;
 
 import com.gsdenys.cpa.exception.CpaAnnotationException;
 
@@ -23,12 +23,6 @@ import com.gsdenys.cpa.exception.CpaAnnotationException;
  * @param <T>
  */
 public interface AnnotationParser<T> {
-
-    String CONNECTION_URL = "url";
-    String CONNECTION_USER = "user";
-    String CONNECTION_PASSWORD = "password";
-
-    String CONNECTION_REPOSITORY_ID = "repositoryId";
 
     void validate(T classBean) throws CpaAnnotationException;
 

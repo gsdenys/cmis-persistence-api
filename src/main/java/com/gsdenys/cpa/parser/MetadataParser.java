@@ -1,4 +1,4 @@
-package com.gsdenys.cpa.annotations.parser;
+package com.gsdenys.cpa.parser;
 
 import com.gsdenys.cpa.exception.CpaAnnotationException;
 
