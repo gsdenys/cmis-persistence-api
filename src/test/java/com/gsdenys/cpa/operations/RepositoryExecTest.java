@@ -2,7 +2,6 @@ package com.gsdenys.cpa.operations;
 
 import com.github.gsdenys.CmisInMemoryRunner;
 import com.github.gsdenys.Configure;
-import com.gsdenys.cpa.persistence.EntityManager;
 import com.gsdenys.cpa.persistence.EntityManagerFactory;
 import com.gsdenys.cpa.persistence.EntityManagerImpl;
 import com.gsdenys.cpa.persistence.Persistence;
@@ -14,8 +13,6 @@ import org.junit.runner.RunWith;
 
 import java.lang.reflect.Field;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by gsdenys on 29/12/16.

@@ -71,33 +71,23 @@ public class CmisExec implements Cloneable {
         this.createExecutors();
     }
 
+    /**
+     * Create executors. This methods is only called by the builders
+     */
     private void createExecutors() {
         this.repositoryExec = new RepositoryExec(this);
         this.persistExec = new PersistExec(this);
     }
 
+    /**
+     * {@link Cloneable#clone()} override implementation
+     *
+     * @return CmisExec the clone of object
+     * @throws CloneNotSupportedException case the clone was not supported
+     */
     @Override
     public CmisExec clone() throws CloneNotSupportedException {
         return (CmisExec) super.clone();
-    }
-
-    /**
-     * Set the repository ID.
-     * <p>
-     * This method set the repository ID case it's not already set, else an {@link CpaRuntimeException} will be returned
-     *
-     * @param repositoryId the repository id to be setted
-     * @throws CpaRuntimeException the exception that will occur when the id is already set.
-     */
-    public void setRepositoryId(String repositoryId) throws CpaRuntimeException {
-
-        if (this.repositoryId != null) {
-            throw new CpaRuntimeException(
-                    "The repository ID just can be set once, and it'd already set."
-            );
-        }
-
-        this.repositoryId = repositoryId;
     }
 
     /**
@@ -129,7 +119,6 @@ public class CmisExec implements Cloneable {
         return this.factory.createSession(this.parameter);
     }
 
-
     protected Map<String, String> getParameter() {
         return parameter;
     }
@@ -138,8 +127,27 @@ public class CmisExec implements Cloneable {
         return repositoryId;
     }
 
+    /**
+     * Set the repository ID.
+     * <p>
+     * This method set the repository ID case it's not already set, else an {@link CpaRuntimeException} will be returned
+     *
+     * @param repositoryId the repository id to be setted
+     * @throws CpaRuntimeException the exception that will occur when the id is already set.
+     */
+    public void setRepositoryId(String repositoryId) throws CpaRuntimeException {
+
+        if (this.repositoryId != null) {
+            throw new CpaRuntimeException(
+                    "The repository ID just can be set once, and it'd already set."
+            );
+        }
+
+        this.repositoryId = repositoryId;
+    }
+
     protected SessionFactory getFactory() {
-        if(this.factory != null) {
+        if (this.factory != null) {
             return this.factory;
         }
 

@@ -149,13 +149,9 @@ public class EntityManagerFactory {
             repo = this.cmisExec.getRepositoryExec().listRepositories();
         } catch (CmisConnectionException cmisConnectionException) {
             throw new CpaConnectionException(
-                    "The CMIS service is not accessible. Check the PROP_URL, user and password at the properties file",
+                    "The CMIS service is not accessible. Check the url, user and password at the properties file",
                     cmisConnectionException
             );
-        }
-
-        if (repo.isEmpty()) {
-            return false;
         }
 
         return true;

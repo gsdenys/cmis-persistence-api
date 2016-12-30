@@ -11,9 +11,8 @@ import org.junit.runner.RunWith;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 /**
  * Created by gsdenys on 28/12/16.

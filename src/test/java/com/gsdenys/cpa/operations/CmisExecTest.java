@@ -11,6 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Properties;
 
@@ -36,7 +38,7 @@ public class CmisExecTest {
     }
 
     @Test
-    public void CmisExec1() throws Exception {
+    public void cmisExec1() throws Exception {
         PropertiesConnection pcon = new PropertiesConnection();
         Properties properties = pcon.loadPropertiesFile("sample");
 
@@ -50,7 +52,7 @@ public class CmisExecTest {
     }
 
     @Test
-    public void CmisExec() throws Exception {
+    public void cmisExec2() throws Exception {
         PropertiesConnection pcon = new PropertiesConnection();
         Properties properties = pcon.loadPropertiesFile("sample");
 
@@ -159,5 +161,18 @@ public class CmisExecTest {
         CmisExec exec = this.cmisExec.clone();
 
         Assert.assertTrue("The cmisExec and Exec Should Be equals", exec.equals(this.cmisExec));
+    }
+
+    @Test
+    public void createFactory() throws Exception {
+        Method method = CmisExec.class.getDeclaredMethod("createFactory");
+        method.setAccessible(true);
+        method.invoke(this.cmisExec);
+
+        Field field = CmisExec.class.getDeclaredField("factory");
+        field.setAccessible(true);
+        SessionFactory factory = (SessionFactory) field.get(this.cmisExec);
+
+        Assert.assertNotNull("The Session factory should be null", factory);
     }
 }

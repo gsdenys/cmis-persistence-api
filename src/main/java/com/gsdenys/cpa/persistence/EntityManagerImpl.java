@@ -7,7 +7,6 @@ import com.gsdenys.cpa.exception.CpaRuntimeException;
 import com.gsdenys.cpa.operations.CmisExec;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,14 +24,13 @@ public class EntityManagerImpl implements EntityManager {
     /**
      * Builder expose just as package-protected
      *
-     * @param cmisExec
-     *          the cmis executor object
+     * @param cmisExec the cmis executor object
      */
     protected EntityManagerImpl(CmisExec cmisExec) {
         this.cmisExec = cmisExec;
     }
 
-   @Override
+    @Override
     public <E> void persist(E entity) throws CpaPersistenceException, CpaAnnotationException {
         DocumentTypeParser<E> typeParser = new DocumentTypeParser<E>();
 
@@ -104,7 +102,7 @@ public class EntityManagerImpl implements EntityManager {
         Map<String, Object> map = new HashMap<>();
         Field fields[] = entity.getClass().getDeclaredFields();
 
-        for (Field field : fields){
+        for (Field field : fields) {
             try {
                 field.setAccessible(true);
                 Object obj = field.get(entity);
@@ -121,7 +119,7 @@ public class EntityManagerImpl implements EntityManager {
     public <E> Map<String, Object> getProperties(E entity, Boolean refreshBefore) throws CpaAnnotationException, CpaRuntimeException {
         this.checkEntityNotNull(entity);
 
-        if(refreshBefore) {
+        if (refreshBefore) {
             this.refresh(entity);
         }
 
@@ -132,7 +130,7 @@ public class EntityManagerImpl implements EntityManager {
     public <E> void setProperties(E entity, Map<String, Object> properties) throws CpaAnnotationException, CpaRuntimeException {
         this.checkEntityNotNull(entity);
 
-        for (String key: properties.keySet()) {
+        for (String key : properties.keySet()) {
             Object value = properties.get(key);
 
             Class clazz = entity.getClass();
@@ -142,13 +140,13 @@ public class EntityManagerImpl implements EntityManager {
                 field.set(entity, value);
             } catch (NoSuchFieldException e) {
                 throw new CpaRuntimeException(
-                        "The field '" + key + "' do not exist at '" + clazz.getSimpleName() +"' class",
+                        "The field '" + key + "' do not exist at '" + clazz.getSimpleName() + "' class",
                         e.getCause()
                 );
             } catch (IllegalAccessException e) {
                 throw new CpaRuntimeException(
                         "The value of property '" + key +
-                                "' field does not match the expected in '" + clazz.getSimpleName() +"' class",
+                                "' field does not match the expected in '" + clazz.getSimpleName() + "' class",
                         e.getCause()
                 );
             }
@@ -159,11 +157,11 @@ public class EntityManagerImpl implements EntityManager {
      * Check if entity is null and when true throws a {@link CpaRuntimeException} error
      *
      * @param entity the entity to be tested
-     * @param <E> some element
+     * @param <E>    some element
      * @throws CpaRuntimeException and exception that be throw when entity is null
      */
     private <E> void checkEntityNotNull(E entity) throws CpaRuntimeException {
-        if(entity == null) {
+        if (entity == null) {
             throw new CpaRuntimeException("Unable to perform get properties. The entity is null");
         }
     }

@@ -7,7 +7,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by gsdenys on 14/12/16.
@@ -45,7 +47,7 @@ public class EntityManagerFactoryTest {
 
         Assert.assertNotNull("The repositories list should not be null", reposId);
         Assert.assertFalse("The repositories list shoul not be empty", reposId.isEmpty());
-        Assert.assertEquals("The repository list should have just one repository", reposId.size(),1);
+        Assert.assertEquals("The repository list should have just one repository", reposId.size(), 1);
     }
 
     @Test
@@ -53,7 +55,7 @@ public class EntityManagerFactoryTest {
         try {
             Map<String, String> repos = new HashMap<>();
             emf.setMappedRepository(repos);
-        }catch (Exception e) {
+        } catch (Exception e) {
             Assert.assertFalse("This method should not return error", true);
         }
     }

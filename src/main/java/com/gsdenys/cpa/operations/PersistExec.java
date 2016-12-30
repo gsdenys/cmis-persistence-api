@@ -1,6 +1,5 @@
 package com.gsdenys.cpa.operations;
 
-import com.gsdenys.cpa.annotations.ID;
 import com.gsdenys.cpa.annotations.Metadata;
 import com.gsdenys.cpa.exception.CpaAnnotationException;
 import com.gsdenys.cpa.exception.CpaRuntimeException;
@@ -68,7 +67,7 @@ public class PersistExec {
                     Object obj = field.get(entity);
 
                     String name;
-                    if(cmisName){
+                    if (cmisName) {
                         Metadata metadata = field.getAnnotation(Metadata.class);
                         name = metadata.name();
                     } else {

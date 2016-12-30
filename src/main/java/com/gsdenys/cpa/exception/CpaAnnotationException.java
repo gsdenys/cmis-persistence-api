@@ -15,9 +15,6 @@
  */
 package com.gsdenys.cpa.exception;
 
-import com.gsdenys.cpa.annotations.DocumentType;
-import com.gsdenys.cpa.annotations.SecondaryType;
-
 /**
  * A CPA annotation exception.
  *
