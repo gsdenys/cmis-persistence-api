@@ -21,10 +21,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by gsdenys on 28/12/16.
+ * Annotation to indicate that a field is a content
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface Parent {
-
+public @interface Content {
 }

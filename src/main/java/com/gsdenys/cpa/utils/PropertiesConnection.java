@@ -1,9 +1,25 @@
+/*
+ * Copyright 2016 CMIS Persistence API
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.gsdenys.cpa.utils;
 
 import com.gsdenys.cpa.exception.CpaPersistenceException;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,10 +33,9 @@ public class PropertiesConnection {
     /**
      * Load properties file
      *
-     * @param connName
-     *          the name of persistence CmisExec
+     * @param connName the name of persistence CmisExec
      * @return Properties
-     *          the connection properties file name
+     * the connection properties file name
      */
     public Properties loadPropertiesFile(String connName) throws CpaPersistenceException {
         String fileName = connName + PROPERTIES_FILE_SUFIX;
@@ -46,7 +61,7 @@ public class PropertiesConnection {
      * @param repoString A repositories string comma separated
      * @return Map the repositories map
      */
-    public Map<String, String> stringToMap(String repoString){
+    public Map<String, String> stringToMap(String repoString) {
         String regex = "(.*)\\[(.*)\\]";
         Pattern pattern = Pattern.compile(regex);
 
@@ -57,7 +72,7 @@ public class PropertiesConnection {
         for (String str : strings) {
             Matcher matcher = pattern.matcher(str);
 
-            if(matcher.matches()){
+            if (matcher.matches()) {
                 String id = matcher.group(1);
                 String alias = matcher.group(2);
 
