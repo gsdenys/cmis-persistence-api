@@ -31,10 +31,10 @@ public class PropertiesConnection {
                     this.getClass().getClassLoader().getResourceAsStream(fileName)
             );
             return properties;
-        } catch (IOException ioException) {
+        } catch (Exception e) {
             throw new CpaPersistenceException(
                     "The file " + connName + PROPERTIES_FILE_SUFIX + " not found at classpath.",
-                    ioException
+                    e
             );
         }
     }

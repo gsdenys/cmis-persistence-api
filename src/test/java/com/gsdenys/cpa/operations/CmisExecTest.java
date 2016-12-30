@@ -175,4 +175,19 @@ public class CmisExecTest {
 
         Assert.assertNotNull("The Session factory should be null", factory);
     }
+
+    @Test
+    public void hashCode1() throws Exception {
+        this.cmisExec.getFactory();
+        int h1 = this.cmisExec.hashCode();
+
+        //change the factory
+        Field field = CmisExec.class.getDeclaredField("factory");
+        field.setAccessible(true);
+        field.set(this.cmisExec, null);
+
+        int h2 = this.cmisExec.hashCode();
+
+        Assert.assertNotEquals("The hash codes should be different", h1, h2);
+    }
 }
