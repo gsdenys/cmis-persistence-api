@@ -57,10 +57,10 @@ public class Persistence {
     /**
      * Create a new {@link EntityManagerFactory} instance
      *
-     * @param connName
-     *          the name of persistence CmisExec
-     * @return EntityManagerFactory
-     *          the {@link EntityManagerFactory} instance
+     * @param connName the name of persistence CmisExec
+     * @return EntityManagerFactory the {@link EntityManagerFactory} instance
+     * @throws CpaPersistenceException any error during the persistence phase
+     * @throws CpaConnectionException  any connection Errors
      */
     public static EntityManagerFactory createEntityManagerFactory(final String connName)
             throws CpaPersistenceException, CpaConnectionException, CpaRuntimeException {

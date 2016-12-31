@@ -1,7 +1,23 @@
+/*
+ * Copyright 2016 CMIS Persistence API
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.gsdenys.cpa.operations;
 
+import com.gsdenys.cpa.exception.CpaAnnotationException;
 import com.gsdenys.cpa.exception.CpaRuntimeException;
-import com.sun.istack.NotNull;
+import com.gsdenys.cpa.operations.parser.TypeParser;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.client.api.SessionFactory;
 import org.apache.chemistry.opencmis.client.runtime.SessionFactoryImpl;
@@ -20,6 +36,8 @@ import java.util.Map;
  */
 public class CmisExec implements Cloneable {
 
+    private static Map<Class, TypeParser> docParserStore;
+
     private Map<String, String> parameter = new HashMap<>();
 
     private String repositoryId;
@@ -30,6 +48,13 @@ public class CmisExec implements Cloneable {
     private RepositoryExec repositoryExec;
     private PersistExec persistExec;
 
+
+    static {
+        if (docParserStore == null) {
+            docParserStore = new HashMap<>();
+        }
+    }
+
     /**
      * Default Builder
      *
@@ -37,8 +62,10 @@ public class CmisExec implements Cloneable {
      * @param user         the user that will be used as performer
      * @param password     the user password
      * @param repositoryId the repository ID
+     * @throws CpaRuntimeException any error at runtime
      */
-    public CmisExec(String url, String user, String password, @NotNull String repositoryId) throws CpaRuntimeException {
+    public CmisExec(String url, String user, String password, String repositoryId)
+            throws CpaRuntimeException {
         parameter.put(SessionParameter.USER, user);
         parameter.put(SessionParameter.PASSWORD, password);
         parameter.put(SessionParameter.ATOMPUB_URL, url);
@@ -80,7 +107,7 @@ public class CmisExec implements Cloneable {
     }
 
     /**
-     * {@link Cloneable#clone()} override implementation
+     * clone override implementation
      *
      * @return CmisExec the clone of object
      * @throws CloneNotSupportedException case the clone was not supported
@@ -167,6 +194,26 @@ public class CmisExec implements Cloneable {
     public PersistExec getPersistExec() {
         return persistExec;
     }
+
+    /**
+     * get the document type parser
+     *
+     * @param clazz the class of the parser
+     * @return TypeParser the parser
+     * @throws CpaAnnotationException case any annotation was not correctly applied
+     * @throws CpaRuntimeException any error during runtime
+     */
+    protected TypeParser getDocParser(Class clazz) throws CpaAnnotationException, CpaRuntimeException {
+        if (docParserStore.containsKey(clazz)){
+            return docParserStore.get(clazz);
+        }
+
+        TypeParser parser = new TypeParser(clazz);
+        docParserStore.put(clazz, parser);
+
+        return parser;
+    }
+
 
 
     @Override

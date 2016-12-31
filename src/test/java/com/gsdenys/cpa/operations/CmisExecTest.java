@@ -1,7 +1,24 @@
+/*
+ * Copyright 2016 CMIS Persistence API
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.gsdenys.cpa.operations;
 
 import com.github.gsdenys.CmisInMemoryRunner;
 import com.github.gsdenys.Configure;
+import com.gsdenys.cpa.entities.Document;
+import com.gsdenys.cpa.operations.parser.TypeParser;
 import com.gsdenys.cpa.persistence.Persistence;
 import com.gsdenys.cpa.utils.PropertiesConnection;
 import org.apache.chemistry.opencmis.client.api.Session;
@@ -67,7 +84,7 @@ public class CmisExecTest {
 
         //test fail when try to create a CMIS EXEC with repository id = null
         try {
-            CmisExec exec1 = new CmisExec(
+            new CmisExec(
                     properties.getProperty(Persistence.PROP_URL),
                     properties.getProperty(Persistence.PROP_USER),
                     properties.getProperty(Persistence.PROP_PASSWRD),
@@ -189,5 +206,12 @@ public class CmisExecTest {
         int h2 = this.cmisExec.hashCode();
 
         Assert.assertNotEquals("The hash codes should be different", h1, h2);
+    }
+
+    @Test
+    public void getDocParser() throws Exception {
+        TypeParser parser = this.cmisExec.getDocParser(Document.class);
+
+        Assert.assertNotNull("The parser should not be null", parser);
     }
 }

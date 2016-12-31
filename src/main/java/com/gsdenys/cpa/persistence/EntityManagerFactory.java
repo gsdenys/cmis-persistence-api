@@ -1,10 +1,10 @@
 package com.gsdenys.cpa.persistence;
 
-import org.apache.chemistry.opencmis.client.api.Repository;
-import org.apache.chemistry.opencmis.commons.exceptions.CmisConnectionException;
 import com.gsdenys.cpa.exception.CpaConnectionException;
 import com.gsdenys.cpa.exception.CpaRuntimeException;
 import com.gsdenys.cpa.operations.CmisExec;
+import org.apache.chemistry.opencmis.client.api.Repository;
+import org.apache.chemistry.opencmis.commons.exceptions.CmisConnectionException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,9 +15,9 @@ import java.util.Map;
  * This is a factory of {@link EntityManager}, which aims to manage the creation of {@link EntityManager} to each
  * repository existent in content management
  *
- * @author
- * @version 0.0.0
- * @since 0.0.0
+ * @author Denys G. Santos (gsdenys@gmail.com)
+ * @version 0.0.1
+ * @since 0.0.1
  */
 public class EntityManagerFactory {
 
@@ -33,31 +33,14 @@ public class EntityManagerFactory {
 
 
     /**
-     * method to clone {@link CmisExec} object
-     *
-     * @return CmisExec the {@link CmisExec} object
-     * @throws CpaRuntimeException the error to be throw when the clone go wrong
-     */
-    private CmisExec cloneCmisExec() throws CpaRuntimeException{
-        CmisExec cmisExec;
-
-        try {
-            cmisExec = this.cmisExec.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new CpaRuntimeException("Error when try to clone object.", e.getCause());
-        }
-
-        return  cmisExec;
-    }
-
-
-    /**
      * Builder expose just as package-protected
      *
      * @param url          the url of cmis
      * @param user         the user that will be used as performer
      * @param password     the user password
      * @param repositoryId the repository ID
+     * @throws CpaRuntimeException    any error at runtime
+     * @throws CpaConnectionException any connection Errors
      */
     protected EntityManagerFactory(String url, String user, String password, String repositoryId)
             throws CpaConnectionException, CpaRuntimeException {
@@ -83,6 +66,24 @@ public class EntityManagerFactory {
     }
 
     /**
+     * method to clone {@link CmisExec} object
+     *
+     * @return CmisExec the {@link CmisExec} object
+     * @throws CpaRuntimeException the error to be throw when the clone go wrong
+     */
+    private CmisExec cloneCmisExec() throws CpaRuntimeException {
+        CmisExec cmisExec;
+
+        try {
+            cmisExec = this.cmisExec.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new CpaRuntimeException("Error when try to clone object.", e.getCause());
+        }
+
+        return cmisExec;
+    }
+
+    /**
      * Get the {@link EntityManager}
      *
      * @return EntityManager
@@ -96,10 +97,10 @@ public class EntityManagerFactory {
      * Get the {@link EntityManager} based on repository ID
      *
      * @param repositoryId the repository ID
-     * @return EntityManager
-     * the {@link EntityManager}
+     * @return EntityManager the {@link EntityManager}
+     * @throws CpaRuntimeException any error at runtime
      */
-    public EntityManager getEntityManager(String repositoryId) throws CpaRuntimeException, CpaConnectionException {
+    public EntityManager getEntityManager(String repositoryId) throws CpaRuntimeException {
         EntityManager em = this.entityManagerMap.get(repositoryId);
 
         if (em != null) {
@@ -131,7 +132,7 @@ public class EntityManagerFactory {
             strings.add(repository.getId());
         });
 
-        return  strings;
+        return strings;
     }
 
     /**
@@ -160,7 +161,7 @@ public class EntityManagerFactory {
     /**
      * set the mapped repositories
      *
-     * @param mappedRepository
+     * @param mappedRepository the mapped repository at properties file
      */
     public void setMappedRepository(Map<String, String> mappedRepository) {
         this.mappedRepository = mappedRepository;

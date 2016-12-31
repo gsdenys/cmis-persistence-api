@@ -22,7 +22,7 @@ package com.gsdenys.cpa.exception;
  * @version 0.0.1
  * @since 0.0.1
  */
-public class CpaPersistenceException extends Exception {
+public class CpaPersistenceException extends CpaRuntimeException {
 
     /**
      * Default Builder

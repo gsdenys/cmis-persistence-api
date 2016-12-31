@@ -35,7 +35,7 @@ public class PropertiesConnection {
      *
      * @param connName the name of persistence CmisExec
      * @return Properties
-     * the connection properties file name
+     * @throws CpaPersistenceException any exceptions on the persistence phase
      */
     public Properties loadPropertiesFile(String connName) throws CpaPersistenceException {
         String fileName = connName + PROPERTIES_FILE_SUFIX;

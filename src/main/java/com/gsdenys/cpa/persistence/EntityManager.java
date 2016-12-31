@@ -22,7 +22,7 @@ public interface EntityManager {
      * @throws CpaPersistenceException some errors during persistence action
      * @throws CpaAnnotationException  some error that occur when try to persist an object with annotation errors
      */
-    <E> void persist(E entity) throws CpaPersistenceException, CpaAnnotationException;
+    <E> void persist(E entity) throws CpaPersistenceException, CpaAnnotationException, CpaRuntimeException;
 
     /**
      * Make an instance managed and persistent. In case of the entity is in checkout mode the checkin
@@ -39,7 +39,7 @@ public interface EntityManager {
      * @throws CpaPersistenceException some errors during persistence action
      * @throws CpaAnnotationException  some error that occur when try to persist an object with annotation errors
      */
-    <E> void persist(E entity, final Boolean lockMode) throws CpaPersistenceException, CpaAnnotationException;
+    <E> void persist(E entity, final Boolean lockMode) throws CpaRuntimeException, CpaAnnotationException;
 
     /**
      * Refresh the state of the instance from the CMIS repository, overwriting changes made to the entity, if any.
@@ -143,6 +143,7 @@ public interface EntityManager {
      * @param <E>    some element
      * @return Map the map containing all entity properties
      * @throws CpaAnnotationException error that will occur case the elements has no correctly annotated
+     * @throws CpaRuntimeException any error at runtime
      */
     <E> Map<String, Object> getProperties(final E entity) throws CpaAnnotationException, CpaRuntimeException;
 
@@ -152,11 +153,14 @@ public interface EntityManager {
      * this method will perform the {@link EntityManager#refresh(Object)} before the method execution
      *
      * @param entity antity to be converted to a map
+     * @param refresBefore boolean value to told if the entity needs to be refreshed before metadata extract
      * @param <E>    some element
      * @return Map the map containing all entity properties
      * @throws CpaAnnotationException error that will occur case the elements has no correctly annotated
+     * @throws CpaRuntimeException any error at runtime
      */
-    <E> Map<String, Object> getProperties(final E entity, final Boolean refresBefore) throws CpaAnnotationException, CpaRuntimeException;
+    <E> Map<String, Object> getProperties(final E entity, final Boolean refresBefore)
+            throws CpaAnnotationException, CpaRuntimeException;
 
     /**
      * Set the properties passed by parameter to the entity. Case no properties can be mapped with any element an

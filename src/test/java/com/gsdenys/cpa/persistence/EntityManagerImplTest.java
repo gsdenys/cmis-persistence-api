@@ -17,10 +17,7 @@ package com.gsdenys.cpa.persistence;
 
 import com.github.gsdenys.CmisInMemoryRunner;
 import com.github.gsdenys.Configure;
-import com.gsdenys.cpa.annotations.DocumentType;
-import com.gsdenys.cpa.annotations.ID;
-import com.gsdenys.cpa.annotations.Metadata;
-import com.gsdenys.cpa.annotations.Parent;
+import com.gsdenys.cpa.entities.Document;
 import com.gsdenys.cpa.exception.CpaRuntimeException;
 import org.junit.Assert;
 import org.junit.Before;
@@ -122,10 +119,10 @@ public class EntityManagerImplTest {
 
         entity.setProperties(document, properties);
 
-        Assert.assertNotNull("the property name should be null", document.name);
+        Assert.assertNotNull("the property name should be null", document.getName());
         Assert.assertEquals(
                 "The property name should be 'TESTE-CASE-SET-PROPERTIES'",
-                document.name,
+                document.getName(),
                 "TESTE-CASE-SET-PROPERTIES"
         );
 
@@ -138,19 +135,4 @@ public class EntityManagerImplTest {
             //nothing to do
         }
     }
-}
-
-//Object Metadata
-
-@DocumentType(name = "cmis:document")
-class Document {
-
-    @ID
-    String id;
-
-    @Parent
-    String parentId;
-
-    @Metadata(name = "cmis:name", mandatory = true)
-    String name;
 }

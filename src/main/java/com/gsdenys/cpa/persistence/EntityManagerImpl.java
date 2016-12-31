@@ -30,13 +30,13 @@ public class EntityManagerImpl implements EntityManager {
     }
 
     @Override
-    public <E> void persist(E entity) throws CpaPersistenceException, CpaAnnotationException {
+    public <E> void persist(E entity) throws CpaAnnotationException, CpaRuntimeException {
         //persist Object at cmis
         this.cmisExec.getPersistExec().persist(entity);
     }
 
     @Override
-    public <E> void persist(E entity, Boolean lockMode) throws CpaPersistenceException, CpaAnnotationException {
+    public <E> void persist(E entity, Boolean lockMode) throws CpaRuntimeException, CpaAnnotationException {
         this.persist(entity);
         this.lock(entity, lockMode);
     }

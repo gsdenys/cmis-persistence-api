@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface DocumentType {
+public @interface Type {
 
     /**
      * The name of document type. e.g <code>cmis:document</code>
@@ -24,4 +24,10 @@ public @interface DocumentType {
      * @return String name of document type
      */
     String name();
+
+    BaseType base() default BaseType.DOCUMENT;
+
+    VersioningType versioning() default VersioningType.MAJOR;
+
+    String encode() default "UTF-8";
 }
