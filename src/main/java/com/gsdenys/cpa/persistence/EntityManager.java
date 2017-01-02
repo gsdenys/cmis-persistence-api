@@ -73,7 +73,7 @@ public interface EntityManager {
      * @param <E>      some element
      * @throws CpaAnnotationException error that will occur case the entity has no correctly annotated
      */
-    <E> void lock(E entity, final Boolean lockMode) throws CpaAnnotationException;
+    <E> void lock(E entity, final Boolean lockMode) throws CpaAnnotationException, CpaRuntimeException;
 
     /**
      * Check if the entity is in lockedMode (checkout)
@@ -83,7 +83,7 @@ public interface EntityManager {
      * @return boolean <b>true</b> case the entity is locked, other else <b>false</b>
      * @throws CpaAnnotationException error that will occur case the entity has no correctly annotated
      */
-    <E> boolean isLocked(final E entity) throws CpaAnnotationException;
+    <E> boolean isLocked(final E entity) throws CpaAnnotationException, CpaRuntimeException;
 
     /**
      * Check if the entity is in lockedMode (checkout) by <b>userName</b>
@@ -94,7 +94,7 @@ public interface EntityManager {
      * @return boolean  <b>true</b> case the entity is locked by <b>userName</b>, other else <b>false</b>
      * @throws CpaAnnotationException error that will occur case the entity has no correctly annotated
      */
-    <E> boolean isLockedBy(final E entity, final String userName) throws CpaAnnotationException;
+    <E> boolean isLockedBy(final E entity, final String userName) throws CpaAnnotationException, CpaRuntimeException;
 
     /**
      * Get the user name of the user that had locked the entity
@@ -104,7 +104,7 @@ public interface EntityManager {
      * @return String the user name
      * @throws CpaAnnotationException error that will occur case the entity has no correctly annotated
      */
-    <E> String lockedBy(final E entity) throws CpaAnnotationException;
+    <E> String lockedBy(final E entity) throws CpaAnnotationException, CpaRuntimeException;
 
     /**
      * Remove the entity instance of the CMIS repository. By Default all versions will be deleted
@@ -130,24 +130,14 @@ public interface EntityManager {
     /**
      * Move the entity from the actual folder to another one.
      *
-     * @param entity     the entity to be moved
-     * @param folderDest the folder to be receive the entity
-     * @param <E>        some element
-     * @throws CpaAnnotationException  error that will occur case the elements has no correctly annotated
-     * @throws CpaPersistenceException some error that can be occur during the move process
-     */
-    <E> void move(E entity, final E folderDest) throws CpaAnnotationException, CpaPersistenceException;
-
-    /**
-     * Move the entity from the actual folder to another one.
-     *
      * @param entity     the entity to be copied
      * @param folderDest the folder to be receive the entity
      * @param <E>        some element
+     * @return E the new entity
      * @throws CpaAnnotationException  error that will occur case the elements has no correctly annotated
      * @throws CpaPersistenceException some error that can be occur during the copy process
      */
-    <E> void copy(E entity, final E folderDest) throws CpaAnnotationException, CpaPersistenceException;
+    <E> E copy(E entity, final E folderDest) throws CpaAnnotationException, CpaRuntimeException;
 
     /**
      * Obtain all properties from an entity in their actual state.
@@ -178,6 +168,8 @@ public interface EntityManager {
     /**
      * Set the properties passed by parameter to the entity. Case no properties can be mapped with any element an
      * {@link CpaRuntimeException} will be throw
+     * <p>
+     * <b>Caution:</b> This method do not persist entity. Its just set metadata at entitu fields.
      *
      * @param entity     the entity to have properties setted
      * @param properties the properties to be setted

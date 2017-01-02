@@ -7,7 +7,7 @@ import java.io.InputStream;
 /**
  * Created by gsdenys on 30/12/16.
  */
-@Type(name = "cmis:document")
+@Entity(name = "cmis:document")
 public class DocumentError2Metadata {
 
     @ID

@@ -18,7 +18,7 @@ package com.gsdenys.cpa.operations;
 import com.github.gsdenys.CmisInMemoryRunner;
 import com.github.gsdenys.Configure;
 import com.gsdenys.cpa.entities.Document;
-import com.gsdenys.cpa.operations.parser.TypeParser;
+import com.gsdenys.cpa.operations.parser.EntityParser;
 import com.gsdenys.cpa.persistence.Persistence;
 import com.gsdenys.cpa.utils.PropertiesConnection;
 import org.apache.chemistry.opencmis.client.api.Session;
@@ -210,7 +210,7 @@ public class CmisExecTest {
 
     @Test
     public void getDocParser() throws Exception {
-        TypeParser parser = this.cmisExec.getDocParser(Document.class);
+        EntityParser parser = this.cmisExec.getEntityParser(Document.class);
 
         Assert.assertNotNull("The parser should not be null", parser);
     }

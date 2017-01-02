@@ -7,7 +7,7 @@ import java.io.InputStream;
 /**
  * Created by gsdenys on 30/12/16.
  */
-@Type(name = "cmis:document", base = BaseType.DOCUMENT)
+@Entity(name = "cmis:document", base = BaseType.DOCUMENT)
 public class DocumentErrorMetadataVersioning {
 
     @ID

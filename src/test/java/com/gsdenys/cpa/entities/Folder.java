@@ -5,7 +5,7 @@ import com.gsdenys.cpa.annotations.*;
 /**
  * Created by gsdenys on 30/12/16.
  */
-@Type(name = "cmis:folder", base = BaseType.FOLDER)
+@Entity(name = "cmis:folder", base = BaseType.FOLDER)
 public class Folder {
 
     @ID

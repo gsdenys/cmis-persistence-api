@@ -4,9 +4,9 @@ import com.gsdenys.cpa.exception.CpaAnnotationException;
 import com.gsdenys.cpa.exception.CpaPersistenceException;
 import com.gsdenys.cpa.exception.CpaRuntimeException;
 import com.gsdenys.cpa.operations.CmisExec;
+import com.gsdenys.cpa.operations.parser.EntityParser;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -25,7 +25,7 @@ public class EntityManagerImpl implements EntityManager {
      *
      * @param cmisExec the cmis executor object
      */
-    protected EntityManagerImpl(CmisExec cmisExec) {
+    EntityManagerImpl(CmisExec cmisExec) {
         this.cmisExec = cmisExec;
     }
 
@@ -52,31 +52,29 @@ public class EntityManagerImpl implements EntityManager {
     }
 
     @Override
-    public <E> void lock(E entity, Boolean lockMode) throws CpaAnnotationException {
-        //TODO do anything
+    public <E> void lock(E entity, Boolean lockMode) throws CpaAnnotationException, CpaRuntimeException {
+        this.cmisExec.getLockExec().lock(entity, lockMode);
     }
 
     @Override
-    public <E> boolean isLocked(E entity) throws CpaAnnotationException {
-        //TODO do anything
-        return false;
+    public <E> boolean isLocked(E entity) throws CpaAnnotationException, CpaRuntimeException {
+        return this.cmisExec.getLockExec().isLocked(entity);
     }
 
     @Override
-    public <E> boolean isLockedBy(E entity, String userName) throws CpaAnnotationException {
-        //TODO do anything
-        return false;
+    public <E> boolean isLockedBy(E entity, String userName)
+            throws CpaAnnotationException, CpaRuntimeException {
+        return this.cmisExec.getLockExec().isLockedBy(entity, userName);
     }
 
     @Override
-    public <E> String lockedBy(E entity) throws CpaAnnotationException {
-        //TODO do anything
-        return null;
+    public <E> String lockedBy(E entity) throws CpaAnnotationException, CpaRuntimeException {
+        return this.cmisExec.getLockExec().lockedBy(entity);
     }
 
     @Override
     public <E> void remove(E entity) throws CpaAnnotationException, CpaRuntimeException {
-        this.cmisExec.getPersistExec().remove(entity,true);
+        this.cmisExec.getPersistExec().remove(entity, true);
     }
 
     @Override
@@ -85,33 +83,14 @@ public class EntityManagerImpl implements EntityManager {
     }
 
     @Override
-    public <E> void move(E entity, E folderDest) throws CpaAnnotationException, CpaPersistenceException {
-        //TODO do anything
-    }
-
-    @Override
-    public <E> void copy(E entity, E folderDest) throws CpaAnnotationException, CpaPersistenceException {
-        //TODO do anything
+    public <E> E copy(E entity, E folderDest) throws CpaAnnotationException, CpaRuntimeException {
+        return this.cmisExec.getLocationExec().copy(entity, folderDest);
     }
 
     @Override
     public <E> Map<String, Object> getProperties(E entity) throws CpaAnnotationException, CpaRuntimeException {
         this.checkEntityNotNull(entity);
-
-        Map<String, Object> map = new HashMap<>();
-        Field fields[] = entity.getClass().getDeclaredFields();
-
-        for (Field field : fields) {
-            try {
-                field.setAccessible(true);
-                Object obj = field.get(entity);
-                map.put(field.getName(), obj);
-            } catch (IllegalAccessException e) {
-                throw new CpaRuntimeException("Unable to perform get operation from " + field.getName(), e.getCause());
-            }
-        }
-
-        return map;
+        return this.cmisExec.getPersistExec().getProperties(entity);
     }
 
     @Override

@@ -30,7 +30,7 @@ import java.lang.reflect.Field;
  * @version 0.0.1
  * @since 0.0.1
  */
-public class AbstTypeParserTest {
+public class AbstEntityParserTest {
 
     @Test
     public void validate() throws Exception {

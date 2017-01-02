@@ -1,14 +1,13 @@
 package com.gsdenys.cpa.entities;
 
 import com.gsdenys.cpa.annotations.*;
-import org.apache.chemistry.opencmis.commons.data.ContentStream;
 
 import java.io.InputStream;
 
 /**
  * Created by gsdenys on 30/12/16.
  */
-@Type(name = "cmis:document")
+@Entity(name = "cmis:document")
 public class Document {
 
     @ID

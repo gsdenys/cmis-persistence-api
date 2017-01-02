@@ -15,9 +15,12 @@
  */
 package com.gsdenys.cpa.operations;
 
+import com.gsdenys.cpa.annotations.BaseType;
 import com.gsdenys.cpa.exception.CpaAnnotationException;
 import com.gsdenys.cpa.exception.CpaRuntimeException;
-import com.gsdenys.cpa.operations.parser.TypeParser;
+import com.gsdenys.cpa.operations.parser.EntityParser;
+import org.apache.chemistry.opencmis.client.api.Document;
+import org.apache.chemistry.opencmis.client.api.ObjectId;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.client.api.SessionFactory;
 import org.apache.chemistry.opencmis.client.runtime.SessionFactoryImpl;
@@ -36,7 +39,7 @@ import java.util.Map;
  */
 public class CmisExec implements Cloneable {
 
-    private static Map<Class, TypeParser> docParserStore;
+    private static Map<Class, EntityParser> docParserStore;
 
     private Map<String, String> parameter = new HashMap<>();
 
@@ -47,6 +50,8 @@ public class CmisExec implements Cloneable {
     //executors
     private RepositoryExec repositoryExec;
     private PersistExec persistExec;
+    private LockExec lockExec;
+    private LocationExec locationExec;
 
 
     static {
@@ -104,6 +109,8 @@ public class CmisExec implements Cloneable {
     private void createExecutors() {
         this.repositoryExec = new RepositoryExec(this);
         this.persistExec = new PersistExec(this);
+        this.lockExec = new LockExec(this);
+        this.locationExec = new LocationExec(this);
     }
 
     /**
@@ -195,26 +202,55 @@ public class CmisExec implements Cloneable {
         return persistExec;
     }
 
+    public LockExec getLockExec() {
+        return lockExec;
+    }
+
+    public LocationExec getLocationExec() {
+        return locationExec;
+    }
+
     /**
      * get the document type parser
      *
      * @param clazz the class of the parser
-     * @return TypeParser the parser
+     * @return EntityParser the parser
      * @throws CpaAnnotationException case any annotation was not correctly applied
      * @throws CpaRuntimeException any error during runtime
      */
-    protected TypeParser getDocParser(Class clazz) throws CpaAnnotationException, CpaRuntimeException {
+    protected EntityParser getEntityParser(Class clazz) throws CpaAnnotationException, CpaRuntimeException {
         if (docParserStore.containsKey(clazz)){
             return docParserStore.get(clazz);
         }
 
-        TypeParser parser = new TypeParser(clazz);
+        EntityParser parser = new EntityParser(clazz);
         docParserStore.put(clazz, parser);
 
         return parser;
     }
 
+    /**
+     * get document from cmis
+     *
+     * @param entity
+     * @param <E>
+     * @return
+     * @throws CpaRuntimeException
+     * @throws CpaAnnotationException
+     */
+    protected  <E> Document getDocument(E entity) throws CpaRuntimeException, CpaAnnotationException {
+        EntityParser parser = this.getEntityParser(entity.getClass());
 
+        if (!parser.getBaseType().equals(BaseType.DOCUMENT)) {
+            throw new CpaRuntimeException("Cannot apply checkout to entity nod derived by cmis:document");
+        }
+
+        //load CMIS object from repository
+        Session session = this.getSession();
+        ObjectId id = session.createObjectId(parser.getId(entity));
+
+        return  (Document) session.getObject(id);
+    }
 
     @Override
     public boolean equals(Object o) {

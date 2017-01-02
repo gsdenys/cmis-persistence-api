@@ -32,7 +32,7 @@ import java.util.Map;
  * @version 0.0.1
  * @since 0.0.1
  */
-public class TypeParser<T> extends AbstTypeParser<T> {
+public class EntityParser<T> extends AbstTypeParser<T> {
 
     /**
      * Default builder
@@ -41,15 +41,15 @@ public class TypeParser<T> extends AbstTypeParser<T> {
      * @throws CpaAnnotationException error throws when any annotation incompatibility was identified
      * @throws CpaRuntimeException    any erros of runtime
      */
-    public TypeParser(Class<T> clazz) throws CpaAnnotationException, CpaRuntimeException {
+    public EntityParser(Class<T> clazz) throws CpaAnnotationException, CpaRuntimeException {
         super(clazz);
     }
 
 
     /**
-     * Get the Name of Document Type
+     * Get the Name of Document Entity
      *
-     * @return String the document Type
+     * @return String the document Entity
      */
     public String getDocTypeName() {
         return super.type;
@@ -280,7 +280,7 @@ public class TypeParser<T> extends AbstTypeParser<T> {
      */
     public String getEncode(final T entity) throws CpaAnnotationException {
         if (!super.checker.isEncode()) {
-            return entity.getClass().getAnnotation(Type.class).encode();
+            return entity.getClass().getAnnotation(Entity.class).encode();
         }
 
         try {
@@ -314,7 +314,7 @@ public class TypeParser<T> extends AbstTypeParser<T> {
      */
     public VersioningType getVersioning(final T entity) throws CpaAnnotationException {
         if (!super.checker.isVersioning()) {
-            return entity.getClass().getAnnotation(Type.class).versioning();
+            return entity.getClass().getAnnotation(Entity.class).versioning();
         }
 
         try {

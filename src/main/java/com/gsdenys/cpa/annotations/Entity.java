@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface Type {
+public @interface Entity {
 
     /**
      * The name of document type. e.g <code>cmis:document</code>

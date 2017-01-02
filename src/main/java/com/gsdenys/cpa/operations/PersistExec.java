@@ -18,7 +18,7 @@ package com.gsdenys.cpa.operations;
 import com.gsdenys.cpa.annotations.BaseType;
 import com.gsdenys.cpa.exception.CpaAnnotationException;
 import com.gsdenys.cpa.exception.CpaRuntimeException;
-import com.gsdenys.cpa.operations.parser.TypeParser;
+import com.gsdenys.cpa.operations.parser.EntityParser;
 import org.apache.chemistry.opencmis.client.api.*;
 import org.apache.chemistry.opencmis.commons.data.ContentStream;
 
@@ -56,7 +56,7 @@ public class PersistExec extends AbstPersistExec {
      * @throws CpaRuntimeException    any error at runtime
      */
     public <E> void persist(E entity) throws CpaAnnotationException, CpaRuntimeException {
-        TypeParser parser = this.cmisExec.getDocParser(entity.getClass());
+        EntityParser parser = this.cmisExec.getEntityParser(entity.getClass());
 
         String id = parser.getId(entity);
         Session session = this.cmisExec.getSession();
@@ -65,7 +65,33 @@ public class PersistExec extends AbstPersistExec {
             this.create(entity, parser, session);
         } else {
             this.update(entity, parser, session);
+
+            //move node if it's necessary. its just occur when the entity parent was different of
+            //the node parent at the repository
+            this.cmisExec.getLocationExec().move(entity);
         }
+    }
+
+    /**
+     * get the parent ID
+     *
+     * @param object the object CMIS
+     * @param type the type of object
+     * @return ObjectId the id of the object
+     */
+    private ObjectId getParentId(CmisObject object, BaseType type) {
+        if (type.equals(BaseType.DOCUMENT)) {
+            Document document = (Document) object;
+            return document.getParents().get(0);
+        }
+
+        if(type.equals(BaseType.FOLDER)) {
+            Folder folder = (Folder) object;
+            return folder.getParents().get(0);
+        }
+
+        Item item = (Item) object;
+        return item.getParents().get(0);
     }
 
     /**
@@ -77,7 +103,7 @@ public class PersistExec extends AbstPersistExec {
      * @throws CpaRuntimeException    any error at runtime
      */
     public <E> void refresh(E entity) throws CpaAnnotationException, CpaRuntimeException {
-        TypeParser parser = this.cmisExec.getDocParser(entity.getClass());
+        EntityParser parser = this.cmisExec.getEntityParser(entity.getClass());
 
         if (parser.getId(entity) == null) {
             throw new CpaRuntimeException("Unable to refresh no persisted entity");
@@ -119,8 +145,9 @@ public class PersistExec extends AbstPersistExec {
      * @throws CpaAnnotationException any annotation inconsistence
      * @throws CpaRuntimeException    any error at runtime
      */
-    public <E> void remove(E entity, final boolean allVersions) throws CpaAnnotationException, CpaRuntimeException {
-        TypeParser parser = this.cmisExec.getDocParser(entity.getClass());
+    public <E> void remove(E entity, final boolean allVersions)
+            throws CpaAnnotationException, CpaRuntimeException {
+        EntityParser parser = this.cmisExec.getEntityParser(entity.getClass());
 
         //load CMIS object from repository
         Session session = this.cmisExec.getSession();
@@ -128,5 +155,19 @@ public class PersistExec extends AbstPersistExec {
         CmisObject cmisObject = session.getObject(id);
 
         cmisObject.delete(allVersions);
+    }
+
+    /**
+     * Obtain all properties from an entity in their actual state.
+     *
+     * @param entity antity to be converted to a map
+     * @param <E>    some element
+     * @return Map the map containing all entity properties
+     * @throws CpaAnnotationException error that will occur case the elements has no correctly annotated
+     * @throws CpaRuntimeException    any error at runtime
+     */
+    public <E> Map<String, Object> getProperties(final E entity)
+            throws CpaAnnotationException, CpaRuntimeException {
+        return this.cmisExec.getPersistExec().getProperties(entity);
     }
 }

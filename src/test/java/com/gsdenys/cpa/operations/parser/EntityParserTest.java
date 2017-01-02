@@ -14,19 +14,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Test case for {@link TypeParser}
+ * Test case for {@link EntityParser}
  *
  * @author Denys G. Santos
  * @author 0.0.1
  * @since 0.0.1
  */
-public class TypeParserTest {
-    private TypeParser<Document> parser;
+public class EntityParserTest {
+    private EntityParser<Document> parser;
     private Document doc;
 
     @Before
     public void setUp() throws Exception {
-        this.parser = new TypeParser<>(Document.class);
+        this.parser = new EntityParser<>(Document.class);
         this.doc = new Document();
 
         this.doc.setContent(new ByteArrayInputStream("test".getBytes()));

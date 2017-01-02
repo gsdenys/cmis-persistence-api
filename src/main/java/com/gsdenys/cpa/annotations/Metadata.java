@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * A Metadata annotation definition
  *
  * All field annotated with this will be considered a metadata. Note that this just be util if its was used
- * inside a {@link Type} or {@link SecondaryType} annotated class.
+ * inside a {@link Entity} or {@link SecondaryType} annotated class.
  *
  * This annotation can be used in a single field or a {@link java.util.Collection} (any {@link java.util.Collection}
  * extensions is also valid) of fields. Any other  use of this annotation will return

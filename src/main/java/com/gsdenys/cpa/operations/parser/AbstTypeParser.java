@@ -69,20 +69,20 @@ abstract class AbstTypeParser<T> {
     }
 
     /**
-     * check by the {@link Type} annotation
+     * check by the {@link Entity} annotation
      *
      * @throws CpaAnnotationException error throws when any annotation incompatibility was identified
      */
     protected void processTypeAnnotation() throws CpaAnnotationException {
-        if (!this.clazz.isAnnotationPresent(Type.class)) {
+        if (!this.clazz.isAnnotationPresent(Entity.class)) {
             throw new CpaAnnotationException(
-                    "The @Type annotation is required for a document type"
+                    "The @Entity annotation is required for a document entity"
             );
         }
 
-        Type type = this.clazz.getDeclaredAnnotation(Type.class);
-        this.type = type.name();
-        this.baseType = type.base();
+        Entity entity = this.clazz.getDeclaredAnnotation(Entity.class);
+        this.type = entity.name();
+        this.baseType = entity.base();
     }
 
     /**

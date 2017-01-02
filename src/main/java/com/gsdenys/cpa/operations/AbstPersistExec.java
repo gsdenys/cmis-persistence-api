@@ -4,7 +4,7 @@ import com.gsdenys.cpa.annotations.BaseType;
 import com.gsdenys.cpa.exception.CpaAnnotationException;
 import com.gsdenys.cpa.exception.CpaPersistenceException;
 import com.gsdenys.cpa.exception.CpaRuntimeException;
-import com.gsdenys.cpa.operations.parser.TypeParser;
+import com.gsdenys.cpa.operations.parser.EntityParser;
 import org.apache.chemistry.opencmis.client.api.CmisObject;
 import org.apache.chemistry.opencmis.client.api.Document;
 import org.apache.chemistry.opencmis.client.api.ObjectId;
@@ -39,7 +39,7 @@ abstract class AbstPersistExec {
      * @throws CpaAnnotationException  when some incompatibility annotation was found
      * @throws CpaPersistenceException when occur an error during the persistence phase
      */
-     protected <E> void update(E entity, TypeParser parser, Session session)
+     protected <E> void update(E entity, EntityParser parser, Session session)
             throws CpaAnnotationException, CpaPersistenceException {
 
         //TODO add here the error when content management do not permit to update less checkout
@@ -52,6 +52,10 @@ abstract class AbstPersistExec {
 
         CmisObject cmisObject = session.getObject(id);
         cmisObject.updateProperties(properties);
+
+        //update parent (move)
+         ObjectId pId = session.getObject(parser.getParentId(entity));
+         CmisObject parent = session.getObject(pId);
 
         if (baseType.equals(BaseType.DOCUMENT)) {
             InputStream is = parser.getContent(entity);
@@ -76,7 +80,7 @@ abstract class AbstPersistExec {
      * @throws CpaAnnotationException  when some incompatibility annotation was found
      * @throws CpaPersistenceException when occur an error during the persistence phase
      */
-    protected <E> void create(E entity, TypeParser parser, Session session)
+    protected <E> void create(E entity, EntityParser parser, Session session)
             throws CpaAnnotationException, CpaRuntimeException {
 
         Map<String, ?> properties = parser.getProperties(entity);
