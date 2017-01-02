@@ -229,29 +229,6 @@ public class CmisExec implements Cloneable {
         return parser;
     }
 
-    /**
-     * get document from cmis
-     *
-     * @param entity
-     * @param <E>
-     * @return
-     * @throws CpaRuntimeException
-     * @throws CpaAnnotationException
-     */
-    protected  <E> Document getDocument(E entity) throws CpaRuntimeException, CpaAnnotationException {
-        EntityParser parser = this.getEntityParser(entity.getClass());
-
-        if (!parser.getBaseType().equals(BaseType.DOCUMENT)) {
-            throw new CpaRuntimeException("Cannot apply checkout to entity nod derived by cmis:document");
-        }
-
-        //load CMIS object from repository
-        Session session = this.getSession();
-        ObjectId id = session.createObjectId(parser.getId(entity));
-
-        return  (Document) session.getObject(id);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

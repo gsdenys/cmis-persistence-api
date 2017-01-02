@@ -29,6 +29,17 @@ import java.util.Map;
  */
 abstract class AbstPersistExec {
 
+    protected CmisExec cmisExec;
+
+    /**
+     * default Contructor
+     *
+     * @param cmisExec the cmisExec object
+     */
+    public AbstPersistExec(CmisExec cmisExec) {
+        this.cmisExec = cmisExec;
+    }
+
     /**
      * Update the entity
      *
@@ -179,5 +190,28 @@ abstract class AbstPersistExec {
         ContentStream cs = new ContentStreamImpl(name, size, mimeType, is);
 
         return cs;
+    }
+
+    /**
+     * get document from cmis
+     *
+     * @param entity
+     * @param <E>
+     * @return
+     * @throws CpaRuntimeException
+     * @throws CpaAnnotationException
+     */
+    protected  <E> Document getDocument(E entity) throws CpaRuntimeException, CpaAnnotationException {
+        EntityParser parser = this.cmisExec.getEntityParser(entity.getClass());
+
+        if (!parser.getBaseType().equals(BaseType.DOCUMENT)) {
+            throw new CpaRuntimeException("Cannot apply checkout to entity nod derived by cmis:document");
+        }
+
+        //load CMIS object from repository
+        Session session = this.cmisExec.getSession();
+        ObjectId id = session.createObjectId(parser.getId(entity));
+
+        return  (Document) session.getObject(id);
     }
 }

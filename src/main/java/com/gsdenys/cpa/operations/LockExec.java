@@ -35,7 +35,7 @@ public class LockExec {
      */
     public <E> boolean isLocked(final E entity)
             throws CpaAnnotationException, CpaRuntimeException {
-        Document document = this.cmisExec.getDocument(entity);
+        Document document = this.cmisExec.getPersistExec().getDocument(entity);
         return Boolean.TRUE.equals(document.isVersionSeriesCheckedOut());
     }
 
@@ -48,7 +48,7 @@ public class LockExec {
      * @throws CpaAnnotationException error that will occur case the entity has no correctly annotated
      */
     public <E> String lockedBy(final E entity) throws CpaAnnotationException, CpaRuntimeException {
-        Document document = this.cmisExec.getDocument(entity);
+        Document document = this.cmisExec.getPersistExec().getDocument(entity);
         return document.getVersionSeriesCheckedOutBy();
     }
 
@@ -63,7 +63,7 @@ public class LockExec {
      */
     public <E> boolean isLockedBy(final E entity, final String userName)
             throws CpaAnnotationException, CpaRuntimeException {
-        Document document = this.cmisExec.getDocument(entity);
+        Document document = this.cmisExec.getPersistExec().getDocument(entity);
 
         if (!isLocked(document)) {
             throw new CpaRuntimeException("The document was not locked");
@@ -83,7 +83,7 @@ public class LockExec {
      * @throws CpaAnnotationException error that will occur case the entity has no correctly annotated
      */
     public <E> void lock(E entity, final boolean lockMode) throws CpaAnnotationException, CpaRuntimeException {
-        Document document = this.cmisExec.getDocument(entity);
+        Document document = this.cmisExec.getPersistExec().getDocument(entity);
 
         //TODO deprecate this method and add the username as parameter. this require to use the cmis directly (less chemistry)
 

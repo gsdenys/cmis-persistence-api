@@ -36,15 +36,13 @@ import java.util.Map;
  */
 public class PersistExec extends AbstPersistExec {
 
-    private CmisExec cmisExec;
-
     /**
      * Default Builder
      *
      * @param exec the {@link CmisExec} object
      */
     public PersistExec(CmisExec exec) {
-        this.cmisExec = exec;
+        super(exec);
     }
 
     /**
@@ -56,10 +54,10 @@ public class PersistExec extends AbstPersistExec {
      * @throws CpaRuntimeException    any error at runtime
      */
     public <E> void persist(E entity) throws CpaAnnotationException, CpaRuntimeException {
-        EntityParser parser = this.cmisExec.getEntityParser(entity.getClass());
+        EntityParser parser = super.cmisExec.getEntityParser(entity.getClass());
 
         String id = parser.getId(entity);
-        Session session = this.cmisExec.getSession();
+        Session session = super.cmisExec.getSession();
 
         if (id == null) {
             this.create(entity, parser, session);
@@ -103,7 +101,7 @@ public class PersistExec extends AbstPersistExec {
      * @throws CpaRuntimeException    any error at runtime
      */
     public <E> void refresh(E entity) throws CpaAnnotationException, CpaRuntimeException {
-        EntityParser parser = this.cmisExec.getEntityParser(entity.getClass());
+        EntityParser parser = super.cmisExec.getEntityParser(entity.getClass());
 
         if (parser.getId(entity) == null) {
             throw new CpaRuntimeException("Unable to refresh no persisted entity");
@@ -112,7 +110,7 @@ public class PersistExec extends AbstPersistExec {
         Map<String, ?> properties = new HashMap<>();
 
         //load CMIS object from repository
-        Session session = this.cmisExec.getSession();
+        Session session = super.cmisExec.getSession();
         ObjectId id = session.createObjectId(parser.getId(entity));
         CmisObject cmisObject = session.getObject(id);
 
@@ -147,10 +145,10 @@ public class PersistExec extends AbstPersistExec {
      */
     public <E> void remove(E entity, final boolean allVersions)
             throws CpaAnnotationException, CpaRuntimeException {
-        EntityParser parser = this.cmisExec.getEntityParser(entity.getClass());
+        EntityParser parser = super.cmisExec.getEntityParser(entity.getClass());
 
         //load CMIS object from repository
-        Session session = this.cmisExec.getSession();
+        Session session = super.cmisExec.getSession();
         ObjectId id = session.createObjectId(parser.getId(entity));
         CmisObject cmisObject = session.getObject(id);
 
@@ -168,6 +166,6 @@ public class PersistExec extends AbstPersistExec {
      */
     public <E> Map<String, Object> getProperties(final E entity)
             throws CpaAnnotationException, CpaRuntimeException {
-        return this.cmisExec.getPersistExec().getProperties(entity);
+        return super.cmisExec.getPersistExec().getProperties(entity);
     }
 }

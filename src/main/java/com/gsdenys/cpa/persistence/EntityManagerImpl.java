@@ -105,7 +105,7 @@ public class EntityManagerImpl implements EntityManager {
     }
 
     @Override
-    public <E> void setProperties(E entity, Map<String, Object> properties) throws CpaAnnotationException, CpaRuntimeException {
+    public <E> void setProperties(E entity, final Map<String, Object> properties) throws CpaAnnotationException, CpaRuntimeException {
         this.checkEntityNotNull(entity);
 
         for (String key : properties.keySet()) {

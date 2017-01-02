@@ -214,4 +214,11 @@ public class CmisExecTest {
 
         Assert.assertNotNull("The parser should not be null", parser);
     }
+
+    @Test
+    public void getLockExec() throws Exception {
+        LockExec exec = this.cmisExec.getLockExec();
+
+        Assert.assertNotNull(exec);
+    }
 }
