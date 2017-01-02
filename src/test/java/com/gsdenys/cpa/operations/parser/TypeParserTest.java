@@ -99,7 +99,7 @@ public class TypeParserTest {
         VersioningType versioning = this.parser.getVersioning(this.doc);
 
         Assert.assertNotNull("The Versioning should exists", versioning);
-        Assert.assertEquals("The versioning should be 'MAJOR'", versioning, VersioningType.MAJOR);
+        Assert.assertEquals("The versioning should be 'MAJOR'", versioning, VersioningType.NONE);
     }
 
     @Test
@@ -112,7 +112,7 @@ public class TypeParserTest {
 
         InputStream is = new ByteArrayInputStream("test".getBytes());
 
-        Document document = this.parser.getEntity(prop, is, parentId, "UTF-8", id, VersioningType.MAJOR);
+        Document document = this.parser.getEntity(prop, is, parentId, "UTF-8", id, VersioningType.NONE);
 
         Assert.assertNotNull("The document shoul not be null", document);
         Assert.assertEquals("The entities should be equals", document, this.doc);

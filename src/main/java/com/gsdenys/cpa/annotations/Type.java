@@ -27,7 +27,7 @@ public @interface Type {
 
     BaseType base() default BaseType.DOCUMENT;
 
-    VersioningType versioning() default VersioningType.MAJOR;
+    VersioningType versioning() default VersioningType.NONE;
 
     String encode() default "UTF-8";
 }

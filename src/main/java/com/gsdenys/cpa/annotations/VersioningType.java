@@ -7,7 +7,8 @@ import org.apache.chemistry.opencmis.commons.enums.VersioningState;
  */
 public enum VersioningType {
     MAJOR(VersioningState.MAJOR),
-    MINOR(VersioningState.MINOR);
+    MINOR(VersioningState.MINOR),
+    NONE(VersioningState.NONE);
 
     private VersioningState version;
 

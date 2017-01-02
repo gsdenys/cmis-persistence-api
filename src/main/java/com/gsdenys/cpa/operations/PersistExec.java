@@ -16,22 +16,15 @@
 package com.gsdenys.cpa.operations;
 
 import com.gsdenys.cpa.annotations.BaseType;
-import com.gsdenys.cpa.annotations.Metadata;
 import com.gsdenys.cpa.exception.CpaAnnotationException;
 import com.gsdenys.cpa.exception.CpaRuntimeException;
 import com.gsdenys.cpa.operations.parser.TypeParser;
-import com.sun.istack.NotNull;
-import org.apache.chemistry.opencmis.client.api.ObjectId;
-import org.apache.chemistry.opencmis.client.api.Session;
-import org.apache.chemistry.opencmis.commons.PropertyIds;
+import org.apache.chemistry.opencmis.client.api.*;
 import org.apache.chemistry.opencmis.commons.data.ContentStream;
-import org.apache.chemistry.opencmis.commons.enums.VersioningState;
-import org.apache.chemistry.opencmis.commons.impl.dataobjects.ContentStreamImpl;
 
 import java.io.InputStream;
-import java.lang.reflect.Field;
-import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,7 +34,7 @@ import java.util.Map;
  * @version 0.0.1
  * @since 0.0.1
  */
-public class PersistExec {
+public class PersistExec extends AbstPersistExec {
 
     private CmisExec cmisExec;
 
@@ -54,110 +47,86 @@ public class PersistExec {
         this.cmisExec = exec;
     }
 
-
     /**
      * Persist entity at the repository
      *
      * @param entity the entity
      * @param <E>    any element
-     * @return E the persistent object
      * @throws CpaAnnotationException any annotation inconsistence
      * @throws CpaRuntimeException    any error at runtime
      */
-    public <E> E persist(E entity) throws CpaAnnotationException, CpaRuntimeException {
-        Class clazz = entity.getClass();
-        TypeParser type = this.cmisExec.getDocParser(entity.getClass());
+    public <E> void persist(E entity) throws CpaAnnotationException, CpaRuntimeException {
+        TypeParser parser = this.cmisExec.getDocParser(entity.getClass());
 
-        String id = type.getId(entity);
-        String parentId = type.getParentId(entity);
-        Map<String, ?> map = type.getProperties(entity);
-
-        if (type.getBaseType().equals(BaseType.DOCUMENT)) {
-            InputStream inputStream = type.getContent(entity);
-            String encode = type.getEncode(entity);
-
-
-            // this.persistDocument(map, id, encode, inputStream, )
-
-        } else if (type.getBaseType().equals(BaseType.FOLDER)) {
-
-        } else {
-
-        }
-
-        return entity;
-    }
-
-    /**
-     * create a new document node
-     *
-     * @param prop   the properties
-     * @param id     the id of parent
-     * @param encode the encode of content
-     * @param is     the content input stream
-     * @param vs     the versioning state
-     * @return String id of generated document
-     * @throws Exception any erros that can occur during the new document creation
-     */
-    private String persistDocument(Map<String, ?> prop, String id, String encode, InputStream is, VersioningState vs)
-            throws Exception {
-
+        String id = parser.getId(entity);
         Session session = this.cmisExec.getSession();
 
-        ObjectId objId = session.createObjectId(id);
-
-        BigInteger size = new BigInteger(String.valueOf(is.available()));
-
-
-        ContentStream cs = new ContentStreamImpl(
-                (String) prop.get(PropertyIds.NAME),
-                size,
-                encode,
-                is
-        );
-
-        return session.createDocument(prop, objId, cs, vs).getId();
+        if (id == null) {
+            this.create(entity, parser, session);
+        } else {
+            this.update(entity, parser, session);
+        }
     }
 
-
     /**
-     * Convert the entity in a {@link Map}
-     * <p>
-     * Case the <b>cmisName</b> was {@link Boolean#TRUE} then the name that will be used at the map is the cmis name
-     * like <i>cmis:name</i>
+     * refresh entity from the repository
      *
-     * @param entity   the entity to be converted
-     * @param cmisName if is used cmis name or not
-     * @param <E>      some element
-     * @return Map the converted map
-     * @throws CpaAnnotationException some errors that can be occur case the entity is not correctly mapped
-     * @throws CpaRuntimeException    some errors that can occur during access field action
+     * @param entity the entity
+     * @param <E>    any element
+     * @throws CpaAnnotationException any annotation inconsistence
+     * @throws CpaRuntimeException    any error at runtime
      */
-    public <E> Map<String, Object> getProperties(E entity, boolean cmisName) throws CpaAnnotationException, CpaRuntimeException {
-        Map<String, Object> map = new HashMap<>();
-        Field fields[] = entity.getClass().getDeclaredFields();
+    public <E> void refresh(E entity) throws CpaAnnotationException, CpaRuntimeException {
+        TypeParser parser = this.cmisExec.getDocParser(entity.getClass());
 
-        for (Field field : fields) {
-            try {
-                if (field.isAnnotationPresent(Metadata.class)) {
-                    field.setAccessible(true);
-                    Object obj = field.get(entity);
-
-                    String name;
-                    if (cmisName) {
-                        Metadata metadata = field.getAnnotation(Metadata.class);
-                        name = metadata.name();
-                    } else {
-                        name = field.getName();
-                    }
-
-                    map.put(name, obj);
-                }
-            } catch (IllegalAccessException e) {
-                throw new CpaRuntimeException("Unable to perform get operation from " + field.getName(), e.getCause());
-            }
+        if (parser.getId(entity) == null) {
+            throw new CpaRuntimeException("Unable to refresh no persisted entity");
         }
 
-        return map;
+        Map<String, ?> properties = new HashMap<>();
+
+        //load CMIS object from repository
+        Session session = this.cmisExec.getSession();
+        ObjectId id = session.createObjectId(parser.getId(entity));
+        CmisObject cmisObject = session.getObject(id);
+
+        //convert property in a map
+        List<Property<?>> propertyList = cmisObject.getProperties();
+        for (Property<?> property : propertyList) {
+            properties.put(property.getDisplayName(), property.getValue());
+        }
+
+        parser.refreshProperty(entity, properties);
+
+        //refresh document - in case of existence of
+        if (parser.getBaseType().equals(BaseType.DOCUMENT)) {
+            Document document = (Document) cmisObject;
+            ContentStream stream = document.getContentStream();
+
+            if (stream != null) {
+                InputStream is = stream.getStream();
+                parser.setContent(entity, is);
+            }
+        }
+    }
+
+    /**
+     * refresh entity from the repository
+     *
+     * @param entity      the entity
+     * @param allVersions remove allVersion
+     * @param <E>         any element
+     * @throws CpaAnnotationException any annotation inconsistence
+     * @throws CpaRuntimeException    any error at runtime
+     */
+    public <E> void remove(E entity, final boolean allVersions) throws CpaAnnotationException, CpaRuntimeException {
+        TypeParser parser = this.cmisExec.getDocParser(entity.getClass());
+
+        //load CMIS object from repository
+        Session session = this.cmisExec.getSession();
+        ObjectId id = session.createObjectId(parser.getId(entity));
+        CmisObject cmisObject = session.getObject(id);
+
+        cmisObject.delete(allVersions);
     }
 }

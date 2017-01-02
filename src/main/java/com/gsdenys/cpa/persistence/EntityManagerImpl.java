@@ -31,7 +31,6 @@ public class EntityManagerImpl implements EntityManager {
 
     @Override
     public <E> void persist(E entity) throws CpaAnnotationException, CpaRuntimeException {
-        //persist Object at cmis
         this.cmisExec.getPersistExec().persist(entity);
     }
 
@@ -42,13 +41,14 @@ public class EntityManagerImpl implements EntityManager {
     }
 
     @Override
-    public <E> void refresh(E entity) throws CpaAnnotationException {
-        //TODO do anything
+    public <E> void refresh(E entity) throws CpaAnnotationException, CpaRuntimeException {
+        this.cmisExec.getPersistExec().refresh(entity);
     }
 
     @Override
-    public <E> void refresh(E entity, Boolean lockMode) throws CpaAnnotationException {
-        //TODO do anything
+    public <E> void refresh(E entity, Boolean lockMode) throws CpaAnnotationException, CpaRuntimeException {
+        this.refresh(entity);
+        this.lock(entity, lockMode);
     }
 
     @Override
@@ -75,8 +75,13 @@ public class EntityManagerImpl implements EntityManager {
     }
 
     @Override
-    public <E> void remove(E entity) throws CpaAnnotationException, CpaPersistenceException {
-        //TODO do anything
+    public <E> void remove(E entity) throws CpaAnnotationException, CpaRuntimeException {
+        this.cmisExec.getPersistExec().remove(entity,true);
+    }
+
+    @Override
+    public <E> void remove(E entity, boolean allVersions) throws CpaAnnotationException, CpaRuntimeException {
+        this.cmisExec.getPersistExec().remove(entity, allVersions);
     }
 
     @Override

@@ -17,7 +17,8 @@ package com.gsdenys.cpa.persistence;
 
 import com.github.gsdenys.CmisInMemoryRunner;
 import com.github.gsdenys.Configure;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 
@@ -34,6 +35,7 @@ public class PersistenceTest {
 
     /**
      * Test case for {@link Persistence#createEntityManagerFactory(String)}
+     *
      * @throws Exception
      */
     @Test

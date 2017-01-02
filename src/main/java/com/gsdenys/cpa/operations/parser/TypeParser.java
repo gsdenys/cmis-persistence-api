@@ -221,6 +221,57 @@ public class TypeParser<T> extends AbstTypeParser<T> {
     }
 
     /**
+     * set the id in the entity
+     *
+     * @param entity the entity
+     * @param id     the ID
+     * @throws CpaRuntimeException any error during the set proccess
+     */
+    public void setId(T entity, String id) throws CpaRuntimeException {
+        try {
+            Field idE = this.clazz.getDeclaredField(this.elementsName.getId());
+            idE.setAccessible(true);
+            idE.set(entity, id);
+        } catch (NoSuchFieldException e) {
+            throw new CpaRuntimeException(
+                    "The Field that represents id was not Found",
+                    e.getCause()
+            );
+        } catch (IllegalAccessException e) {
+            throw new CpaRuntimeException(
+                    "The field that represents id is not accessible",
+                    e.getCause()
+            );
+        }
+    }
+
+    /**
+     * set the id in the entity
+     *
+     * @param entity the entity
+     * @param is     the input stream
+     * @throws CpaRuntimeException any error during the set proccess
+     */
+    public void setContent(T entity, final InputStream is) throws CpaRuntimeException {
+        try {
+            Field contentField = this.clazz.getDeclaredField(this.elementsName.getContent());
+            contentField.setAccessible(true);
+            contentField.set(entity, is);
+        } catch (NoSuchFieldException e) {
+            throw new CpaRuntimeException(
+                    "Field that represents content not Found",
+                    e.getCause()
+            );
+        } catch (IllegalAccessException e) {
+            throw new CpaRuntimeException(
+                    "The field that represents content is not accessible",
+                    e.getCause()
+            );
+        }
+    }
+
+
+    /**
      * get the encode mapped at the entity
      *
      * @param entity the entity to get encode
@@ -358,5 +409,37 @@ public class TypeParser<T> extends AbstTypeParser<T> {
         }
 
         return entity;
+    }
+
+    public void refreshProperty(T entity, Map<String, ?> properties) throws CpaRuntimeException {
+
+        Map<String, String> inverseMap = new HashMap<>();
+        super.properties.forEach((key, value) -> inverseMap.put(value, key));
+
+        try {
+            entity = super.clazz.newInstance();
+
+            for (Field field : super.clazz.getDeclaredFields()) {
+                String key = inverseMap.get(field.getName());
+
+                field.setAccessible(true);
+
+                if (field.isAnnotationPresent(Metadata.class)) {
+                    Object obj = properties.get(key);
+                    field.set(entity, obj);
+                    continue;
+                }
+            }
+        } catch (InstantiationException e) {
+            throw new CpaRuntimeException(
+                    "Unable to create a new instance of " + super.clazz.getSimpleName(),
+                    e.getCause()
+            );
+        } catch (IllegalAccessException e) {
+            throw new CpaRuntimeException(
+                    "Unable to access some " + super.clazz.getSimpleName() + " field",
+                    e.getCause()
+            );
+        }
     }
 }

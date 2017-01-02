@@ -19,10 +19,10 @@ public interface EntityManager {
      *
      * @param entity the object to be saved at content Management
      * @param <E>    some element
-     * @throws CpaPersistenceException some errors during persistence action
-     * @throws CpaAnnotationException  some error that occur when try to persist an object with annotation errors
+     * @throws CpaRuntimeException    some errors during persistence action
+     * @throws CpaAnnotationException some error that occur when try to persist an object with annotation errors
      */
-    <E> void persist(E entity) throws CpaPersistenceException, CpaAnnotationException, CpaRuntimeException;
+    <E> void persist(E entity) throws CpaAnnotationException, CpaRuntimeException;
 
     /**
      * Make an instance managed and persistent. In case of the entity is in checkout mode the checkin
@@ -36,8 +36,8 @@ public interface EntityManager {
      * @param entity   the object to be saved at content Management
      * @param <E>      some element
      * @param lockMode the flag that define if the content node needs to be stay locked (Checkout) after operation
-     * @throws CpaPersistenceException some errors during persistence action
-     * @throws CpaAnnotationException  some error that occur when try to persist an object with annotation errors
+     * @throws CpaRuntimeException    some errors during persistence action
+     * @throws CpaAnnotationException some error that occur when try to persist an object with annotation errors
      */
     <E> void persist(E entity, final Boolean lockMode) throws CpaRuntimeException, CpaAnnotationException;
 
@@ -47,8 +47,9 @@ public interface EntityManager {
      * @param entity the entity to be refreshed
      * @param <E>    some element
      * @throws CpaAnnotationException error that will occur case the entity has no correctly annotated
+     * @throws CpaRuntimeException    some errors during persistence action
      */
-    <E> void refresh(E entity) throws CpaAnnotationException;
+    <E> void refresh(E entity) throws CpaAnnotationException, CpaRuntimeException;
 
     /**
      * Refresh the state of the instance from the CMIS repository, overwriting changes made to the entity, if any,
@@ -60,8 +61,9 @@ public interface EntityManager {
      * @param lockMode the flag that define if the content node needs or not to be locked (Checkout)
      * @param <E>      some element
      * @throws CpaAnnotationException error that will occur case the entity has no correctly annotated
+     * @throws CpaRuntimeException    some errors during persistence action
      */
-    <E> void refresh(E entity, final Boolean lockMode) throws CpaAnnotationException;
+    <E> void refresh(E entity, final Boolean lockMode) throws CpaAnnotationException, CpaRuntimeException;
 
     /**
      * Lock an entity instance that is contained in the persistence context
@@ -105,14 +107,25 @@ public interface EntityManager {
     <E> String lockedBy(final E entity) throws CpaAnnotationException;
 
     /**
-     * Remove the entity instance of the CMIS repository.
+     * Remove the entity instance of the CMIS repository. By Default all versions will be deleted
      *
      * @param entity the entity to be removed
      * @param <E>    some element
-     * @throws CpaAnnotationException  error that will occur case the entity has no correctly annotated
-     * @throws CpaPersistenceException some error that can be occur during the remove process
+     * @throws CpaAnnotationException error that will occur case the entity has no correctly annotated
+     * @throws CpaRuntimeException    some error that can be occur during the remove process
      */
-    <E> void remove(E entity) throws CpaAnnotationException, CpaPersistenceException;
+    <E> void remove(E entity) throws CpaAnnotationException, CpaRuntimeException;
+
+    /**
+     * Remove the entity instance of the CMIS repository.
+     *
+     * @param entity      the entity to be removed
+     * @param allVersions delete all versions of entity
+     * @param <E>         some element
+     * @throws CpaAnnotationException error that will occur case the entity has no correctly annotated
+     * @throws CpaRuntimeException    some error that can be occur during the remove process
+     */
+    <E> void remove(E entity, boolean allVersions) throws CpaAnnotationException, CpaRuntimeException;
 
     /**
      * Move the entity from the actual folder to another one.
@@ -143,7 +156,7 @@ public interface EntityManager {
      * @param <E>    some element
      * @return Map the map containing all entity properties
      * @throws CpaAnnotationException error that will occur case the elements has no correctly annotated
-     * @throws CpaRuntimeException any error at runtime
+     * @throws CpaRuntimeException    any error at runtime
      */
     <E> Map<String, Object> getProperties(final E entity) throws CpaAnnotationException, CpaRuntimeException;
 
@@ -152,12 +165,12 @@ public interface EntityManager {
      * Obtain all properties from an entity. Case the parameter <b>refresBefore</b> is {@link Boolean#TRUE} then
      * this method will perform the {@link EntityManager#refresh(Object)} before the method execution
      *
-     * @param entity antity to be converted to a map
+     * @param entity       antity to be converted to a map
      * @param refresBefore boolean value to told if the entity needs to be refreshed before metadata extract
-     * @param <E>    some element
+     * @param <E>          some element
      * @return Map the map containing all entity properties
      * @throws CpaAnnotationException error that will occur case the elements has no correctly annotated
-     * @throws CpaRuntimeException any error at runtime
+     * @throws CpaRuntimeException    any error at runtime
      */
     <E> Map<String, Object> getProperties(final E entity, final Boolean refresBefore)
             throws CpaAnnotationException, CpaRuntimeException;
