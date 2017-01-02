@@ -31,7 +31,7 @@ import java.util.Map;
  * @version 0.0.1
  * @since 0.0.1
  */
-abstract class AbstTypeParser<T> {
+abstract class AbstEntityParser<T> {
     protected Class<T> clazz;
 
     protected BaseType baseType;
@@ -42,7 +42,7 @@ abstract class AbstTypeParser<T> {
     protected FieldChecker checker;
 
 
-    protected AbstTypeParser(Class<T> clazz, boolean validate) throws CpaRuntimeException, CpaAnnotationException {
+    protected AbstEntityParser(Class<T> clazz, boolean validate) throws CpaRuntimeException, CpaAnnotationException {
         this.clazz = clazz;
         this.properties = new HashMap<>();
         this.checker = new FieldChecker();
@@ -53,7 +53,7 @@ abstract class AbstTypeParser<T> {
         }
     }
 
-    protected AbstTypeParser(Class<T> clazz) throws CpaRuntimeException, CpaAnnotationException {
+    protected AbstEntityParser(Class<T> clazz) throws CpaRuntimeException, CpaAnnotationException {
         this(clazz, true);
     }
 
@@ -120,16 +120,16 @@ abstract class AbstTypeParser<T> {
             return;
         }
 
+        String typeName = field.getAnnotation(Metadata.class).name();
+        this.checker.setMetadata(true);
+        fieldChecker.setMetadata(true);
+
         if (fieldChecker.multipleChecker()) {
             throw new CpaAnnotationException(
                     "The Annotations @Metadata can't be applied to the some field that " +
                             "others CPA Annotations is already applied."
             );
         }
-
-        String typeName = field.getAnnotation(Metadata.class).name();
-        this.checker.setMetadata(true);
-        fieldChecker.setMetadata(true);
 
         if (this.properties.get(typeName) != null) {
             throw new CpaAnnotationException(

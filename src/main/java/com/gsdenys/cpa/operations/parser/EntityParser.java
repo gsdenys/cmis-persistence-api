@@ -32,7 +32,7 @@ import java.util.Map;
  * @version 0.0.1
  * @since 0.0.1
  */
-public class EntityParser<T> extends AbstTypeParser<T> {
+public class EntityParser<T> extends AbstEntityParser<T> {
 
     /**
      * Default builder

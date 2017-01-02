@@ -24,7 +24,7 @@ import org.junit.Test;
 import java.lang.reflect.Field;
 
 /**
- * Test Case for {@link AbstTypeParser} abstract class
+ * Test Case for {@link AbstEntityParser} abstract class
  *
  * @author Denys G. Santos (gsdenys@gmail.com)
  * @version 0.0.1
@@ -76,7 +76,6 @@ public class AbstEntityParserTest {
     @Test
     public void processTypeAnnotation() throws Exception {
         ParserForTest<Document> parser = new ParserForTest<>(Document.class, false);
-
         parser.processTypeAnnotation();
 
         Assert.assertNotNull("The type should not be null", parser.type);
@@ -85,6 +84,17 @@ public class AbstEntityParserTest {
                 parser.type,
                 "cmis:document"
         );
+
+        try {
+            ParserForTest<DocumentErrorNoAnnotationEntity> pErrrorNoEntity =
+                    new ParserForTest<>(DocumentErrorNoAnnotationEntity.class, false);
+
+            pErrrorNoEntity.processTypeAnnotation();
+
+            Assert.fail("The parser should throws error when entity has no annotation @Entity");
+        } catch (CpaAnnotationException | CpaRuntimeException e) {
+            //nothing to do
+        }
     }
 
     @Test
@@ -149,6 +159,26 @@ public class AbstEntityParserTest {
             p2M.checkMetadata(fieldE2, fieldCheckerE);
 
             Assert.fail("Cannot execute validation to a type with 2 annotation mapping same property");
+        } catch (CpaAnnotationException | CpaRuntimeException e) {
+            //nothing to do
+        }
+
+        try {
+            ParserForTest<DocumentErrorMetadataID> pMI = new ParserForTest<>(
+                    DocumentErrorMetadataID.class,
+                    false
+            );
+
+            Field fieldE2 = DocumentErrorMetadataID.class.getDeclaredField("name");
+            FieldChecker fieldCheckerE = new FieldChecker();
+
+            pMI.checkID(fieldE2, fieldCheckerE);
+            pMI.checkMetadata(fieldE2, fieldCheckerE);
+
+            Assert.fail(
+                    "Cannot execute validation to a type that have a fields annotated with @ID " +
+                            "and @Metadata at the some time"
+            );
         } catch (CpaAnnotationException | CpaRuntimeException e) {
             //nothing to do
         }
@@ -407,11 +437,11 @@ public class AbstEntityParserTest {
 }
 
 /**
- * Class that extends from {@link AbstTypeParser} for a test propose
+ * Class that extends from {@link AbstEntityParser} for a test propose
  *
  * @param <T> some entity element
  */
-class ParserForTest<T> extends AbstTypeParser<T> {
+class ParserForTest<T> extends AbstEntityParser<T> {
 
     ParserForTest(Class<T> clazz, boolean validate) throws CpaRuntimeException, CpaAnnotationException {
         super(clazz, validate);

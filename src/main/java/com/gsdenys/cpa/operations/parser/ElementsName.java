@@ -1,10 +1,6 @@
 package com.gsdenys.cpa.operations.parser;
 
-import com.gsdenys.cpa.annotations.Content;
 
-/**
- * Created by gsdenys on 30/12/16.
- */
 public class ElementsName {
 
     private String id;

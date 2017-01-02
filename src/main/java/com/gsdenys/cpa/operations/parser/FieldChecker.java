@@ -70,12 +70,10 @@ public class FieldChecker {
         boolean flag = false;
 
         Field[] fields = FieldChecker.class.getDeclaredFields();
-
         for(Field field : fields) {
             field.setAccessible(true);
 
             try {
-
                 Class t = field.getType();
                 Object v = field.get(this);
 
@@ -97,5 +95,4 @@ public class FieldChecker {
 
         return false;
     }
-
 }
