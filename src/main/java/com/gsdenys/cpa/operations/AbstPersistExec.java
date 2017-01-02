@@ -39,7 +39,7 @@ abstract class AbstPersistExec {
      * @throws CpaAnnotationException  when some incompatibility annotation was found
      * @throws CpaPersistenceException when occur an error during the persistence phase
      */
-     <E> void update(E entity, TypeParser parser, Session session)
+     protected <E> void update(E entity, TypeParser parser, Session session)
             throws CpaAnnotationException, CpaPersistenceException {
 
         //TODO add here the error when content management do not permit to update less checkout
@@ -76,7 +76,7 @@ abstract class AbstPersistExec {
      * @throws CpaAnnotationException  when some incompatibility annotation was found
      * @throws CpaPersistenceException when occur an error during the persistence phase
      */
-     <E> void create(E entity, TypeParser parser, Session session)
+    protected <E> void create(E entity, TypeParser parser, Session session)
             throws CpaAnnotationException, CpaRuntimeException {
 
         Map<String, ?> properties = parser.getProperties(entity);
@@ -116,7 +116,7 @@ abstract class AbstPersistExec {
      * @return String id of generated document
      * @throws Exception any erros that can occur during the new document creation
      */
-     void updateDocument(
+    protected void updateDocument(
             Map<String, ?> prop, ObjectId id, InputStream is, VersioningState vs, Session session)
             throws CpaPersistenceException {
 
@@ -142,7 +142,7 @@ abstract class AbstPersistExec {
      * @return the content stream generated
      * @throws CpaPersistenceException any error during get the size of content
      */
-    ContentStream getContent(InputStream is, String name) throws CpaPersistenceException {
+    protected ContentStream getContent(InputStream is, String name) throws CpaPersistenceException {
 
         if (is == null) {
             return null;

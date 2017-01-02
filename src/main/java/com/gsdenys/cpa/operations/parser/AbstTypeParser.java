@@ -32,17 +32,17 @@ import java.util.Map;
  * @since 0.0.1
  */
 abstract class AbstTypeParser<T> {
-    Class<T> clazz;
+    protected Class<T> clazz;
 
-    BaseType baseType;
-    String type;
+    protected BaseType baseType;
+    protected String type;
 
-    Map<String, String> properties;
-    ElementsName elementsName;
-    FieldChecker checker;
+    protected Map<String, String> properties;
+    protected ElementsName elementsName;
+    protected FieldChecker checker;
 
 
-    AbstTypeParser(Class<T> clazz, boolean validate) throws CpaRuntimeException, CpaAnnotationException {
+    protected AbstTypeParser(Class<T> clazz, boolean validate) throws CpaRuntimeException, CpaAnnotationException {
         this.clazz = clazz;
         this.properties = new HashMap<>();
         this.checker = new FieldChecker();
@@ -53,7 +53,7 @@ abstract class AbstTypeParser<T> {
         }
     }
 
-    AbstTypeParser(Class<T> clazz) throws CpaRuntimeException, CpaAnnotationException {
+    protected AbstTypeParser(Class<T> clazz) throws CpaRuntimeException, CpaAnnotationException {
         this(clazz, true);
     }
 
@@ -63,7 +63,7 @@ abstract class AbstTypeParser<T> {
      * @throws CpaAnnotationException error throws when any annotation incompatibility was identified
      * @throws CpaRuntimeException    any erros of runtime
      */
-    void validate() throws CpaAnnotationException, CpaRuntimeException {
+    protected void validate() throws CpaAnnotationException, CpaRuntimeException {
         this.processTypeAnnotation();
         this.processFieldsAnnotation();
     }
@@ -73,7 +73,7 @@ abstract class AbstTypeParser<T> {
      *
      * @throws CpaAnnotationException error throws when any annotation incompatibility was identified
      */
-    void processTypeAnnotation() throws CpaAnnotationException {
+    protected void processTypeAnnotation() throws CpaAnnotationException {
         if (!this.clazz.isAnnotationPresent(Type.class)) {
             throw new CpaAnnotationException(
                     "The @Type annotation is required for a document type"
@@ -91,7 +91,7 @@ abstract class AbstTypeParser<T> {
      * @throws CpaAnnotationException error throws when any annotation incompatibility was identified
      * @throws CpaRuntimeException    any errors of runtime
      */
-    void processFieldsAnnotation() throws CpaAnnotationException, CpaRuntimeException {
+    protected void processFieldsAnnotation() throws CpaAnnotationException, CpaRuntimeException {
 
         for (Field field : this.clazz.getDeclaredFields()) {
             FieldChecker localChecker = new FieldChecker();
@@ -112,7 +112,7 @@ abstract class AbstTypeParser<T> {
      * @throws CpaAnnotationException error throws when any annotation incompatibility was identified
      * @throws CpaRuntimeException    any errors of runtime
      */
-    void checkMetadata(final Field field, FieldChecker fieldChecker)
+    protected void checkMetadata(final Field field, FieldChecker fieldChecker)
             throws CpaAnnotationException, CpaRuntimeException {
 
         if (!field.isAnnotationPresent(Metadata.class)) {
@@ -149,7 +149,7 @@ abstract class AbstTypeParser<T> {
      * @throws CpaAnnotationException error throws when any annotation incompatibility was identified
      * @throws CpaRuntimeException    any errors of runtime
      */
-    void checkID(final Field field, FieldChecker fieldChecker)
+    protected void checkID(final Field field, FieldChecker fieldChecker)
             throws CpaAnnotationException, CpaRuntimeException {
 
         if (!field.isAnnotationPresent(ID.class)) {
@@ -184,7 +184,7 @@ abstract class AbstTypeParser<T> {
      * @throws CpaAnnotationException error throws when any annotation incompatibility was identified
      * @throws CpaRuntimeException    any errors of runtime
      */
-    void checkParent(Field field, FieldChecker fieldChecker)
+    protected void checkParent(Field field, FieldChecker fieldChecker)
             throws CpaAnnotationException, CpaRuntimeException {
 
         if (!field.isAnnotationPresent(Parent.class)) {
@@ -219,7 +219,7 @@ abstract class AbstTypeParser<T> {
      * @throws CpaAnnotationException error throws when any annotation incompatibility was identified
      * @throws CpaRuntimeException    any errors of runtime
      */
-    void checkEncode(Field field, FieldChecker fieldChecker)
+    protected void checkEncode(Field field, FieldChecker fieldChecker)
             throws CpaAnnotationException, CpaRuntimeException {
 
         if (!field.isAnnotationPresent(Encode.class)) {
@@ -254,7 +254,7 @@ abstract class AbstTypeParser<T> {
      * @throws CpaAnnotationException error throws when any annotation incompatibility was identified
      * @throws CpaRuntimeException    any errors of runtime
      */
-    void checkVersioning(Field field, FieldChecker fieldChecker)
+    protected void checkVersioning(Field field, FieldChecker fieldChecker)
             throws CpaAnnotationException, CpaRuntimeException {
 
         if (!field.isAnnotationPresent(Versioning.class)) {
@@ -290,7 +290,7 @@ abstract class AbstTypeParser<T> {
      * @throws CpaAnnotationException error throws when any annotation incompatibility was identified
      * @throws CpaRuntimeException    any errors of runtime
      */
-    void checkContent(Field field, FieldChecker fieldChecker)
+    protected void checkContent(Field field, FieldChecker fieldChecker)
             throws CpaAnnotationException, CpaRuntimeException {
 
         if (!field.isAnnotationPresent(Content.class)) {
