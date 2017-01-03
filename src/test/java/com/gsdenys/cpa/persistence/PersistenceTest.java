@@ -41,10 +41,10 @@ public class PersistenceTest {
     @Test
     public void createEntityManagerFactory() throws Exception {
 
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("docs");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("sample");
         Assert.assertNotNull("The factory should be not null!", factory);
 
-        EntityManagerFactory factory2 = Persistence.createEntityManagerFactory("docs");
+        EntityManagerFactory factory2 = Persistence.createEntityManagerFactory("sample");
         Assert.assertNotNull("The factory2 should be not null!", factory2);
 
         Assert.assertSame("The factory and factory2 should be the same", factory, factory2);

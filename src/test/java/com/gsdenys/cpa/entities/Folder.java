@@ -11,7 +11,7 @@ public class Folder {
     @ID
     String id;
 
-    @Metadata(name = "cmis:folder", mandatory = true)
+    @Metadata(name = "cmis:name", mandatory = true)
     String name;
 
     @Parent

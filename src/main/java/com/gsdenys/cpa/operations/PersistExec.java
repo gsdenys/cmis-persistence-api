@@ -16,7 +16,6 @@
 package com.gsdenys.cpa.operations;
 
 import com.gsdenys.cpa.annotations.BaseType;
-import com.gsdenys.cpa.annotations.Entity;
 import com.gsdenys.cpa.exception.CpaAnnotationException;
 import com.gsdenys.cpa.exception.CpaRuntimeException;
 import com.gsdenys.cpa.operations.parser.EntityParser;
@@ -29,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The persistence Executor
+ * The executor to perform persistence actions
  *
  * @author Denys G. Santos (gsdenys@gmail.com)
  * @version 0.0.1
@@ -75,7 +74,7 @@ public class PersistExec extends AbstPersistExec {
      * get the parent ID
      *
      * @param object the object CMIS
-     * @param type the type of object
+     * @param type   the type of object
      * @return ObjectId the id of the object
      */
     private ObjectId getParentId(CmisObject object, BaseType type) {
@@ -84,7 +83,7 @@ public class PersistExec extends AbstPersistExec {
             return document.getParents().get(0);
         }
 
-        if(type.equals(BaseType.FOLDER)) {
+        if (type.equals(BaseType.FOLDER)) {
             Folder folder = (Folder) object;
             return folder.getParents().get(0);
         }
@@ -118,7 +117,7 @@ public class PersistExec extends AbstPersistExec {
         //convert property in a map
         List<Property<?>> propertyList = cmisObject.getProperties();
         for (Property<?> property : propertyList) {
-            properties.put(property.getDisplayName(), property.getValue());
+            properties.put(property.getLocalName(), property.getValue());
         }
 
         parser.refreshProperty(entity, properties);

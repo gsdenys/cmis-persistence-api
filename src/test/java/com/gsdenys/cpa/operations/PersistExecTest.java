@@ -35,7 +35,7 @@ public class PersistExecTest {
     public void setUp() throws Exception {
 
         //get persistence exec
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("docs");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("sample");
         EntityManagerImpl em = (EntityManagerImpl) emf.getEntityManager();
 
         Field fieldCmisExec = EntityManagerImpl.class.getDeclaredField("cmisExec");

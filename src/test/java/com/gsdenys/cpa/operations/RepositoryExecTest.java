@@ -25,7 +25,7 @@ public class RepositoryExecTest {
 
     @Before
     public void setUp() throws Exception {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("docs");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("sample");
         EntityManagerImpl emi = (EntityManagerImpl) factory.getEntityManager();
 
         Field f = EntityManagerImpl.class.getDeclaredField("cmisExec");

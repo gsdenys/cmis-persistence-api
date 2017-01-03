@@ -21,7 +21,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to indicate that a field is a content
+ * Field annotation used to represent the content of document.
+ * <p>
+ * This annotation just can be used in a {@link java.io.InputStream} field
+ *
+ * @author Denys G. Santos (gsdenys@gmail.com)
+ * @version 0.0.1
+ * @since 0.0.1
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)

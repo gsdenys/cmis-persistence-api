@@ -21,7 +21,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by gsdenys on 28/12/16.
+ * Field annotation that define a parent node od entity. This annotation just have
+ * effect case applied inside a bean annotated by {@link Entity} annotaStion
+ *
+ * @author Denys G. Santos (gsdenys@gmail.com)
+ * @version 0.0.1
+ * @since 0.0.1
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)

@@ -41,7 +41,7 @@ public class EntityManagerImplTest {
 
     @Before
     public void setUp() throws Exception {
-        this.factory = Persistence.createEntityManagerFactory("docs");
+        this.factory = Persistence.createEntityManagerFactory("sample");
         this.entity = this.factory.getEntityManager();
     }
 

@@ -24,7 +24,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by gsdenys on 24/12/16.
+ * Class ro read and parse the properties file that contain the connection parameters
+ *
+ * @author Denys G. Santos (gsdenys@gmail.com)
+ * @version 0.0.1
+ * @since 0.0.1
  */
 public class PropertiesConnection {
 

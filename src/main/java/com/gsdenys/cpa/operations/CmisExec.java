@@ -29,11 +29,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * org.cmis.cpa.operations
+ * Cmis Executor base
  *
- * @author gsdenys
- * @version 0.0.0
- * @since 0.0.0
+ * @author Denys G. Santos (gsdenys@gmail.com
+ * @version 0.0.1
+ * @since 0.0.1
  */
 public class CmisExec implements Cloneable {
 
@@ -63,7 +63,7 @@ public class CmisExec implements Cloneable {
      * @param repositoryId the repository ID
      * @throws CpaRuntimeException any error at runtime
      */
-    protected CmisExec(@NotNull String url, @NotNull  String user, @NotNull String password, @NotNull String repositoryId)
+    protected CmisExec(@NotNull String url, @NotNull String user, @NotNull String password, @NotNull String repositoryId)
             throws CpaRuntimeException {
         parameter.put(SessionParameter.USER, user);
         parameter.put(SessionParameter.PASSWORD, password);

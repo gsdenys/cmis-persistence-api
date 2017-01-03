@@ -15,13 +15,13 @@ import java.util.Properties;
 
 
 @RunWith(CmisInMemoryRunner.class)
-@Configure(port = 8080)
+@Configure
 public class EntityManagerFactoryTest {
     EntityManagerFactory emf;
 
     @Before
     public void setUp() throws Exception {
-        emf = Persistence.createEntityManagerFactory("docs");
+        emf = Persistence.createEntityManagerFactory("sample");
     }
 
     @Test
@@ -63,7 +63,7 @@ public class EntityManagerFactoryTest {
     @Test
     public void EntityManagerFactory() throws Exception {
         PropertiesConnection pCon = new PropertiesConnection();
-        Properties p = pCon.loadPropertiesFile("docs");
+        Properties p = pCon.loadPropertiesFile("sample");
 
         EntityManagerFactory factory = new EntityManagerFactory(
                 p.getProperty(Persistence.PROP_URL),

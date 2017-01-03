@@ -33,7 +33,7 @@ public class PropertiesConnectionTest {
     @Test
     public void loadPropertiesFile() throws Exception {
         PropertiesConnection pc = new PropertiesConnection();
-        Properties prop = pc.loadPropertiesFile("docs");
+        Properties prop = pc.loadPropertiesFile("sample");
 
         Assert.assertNotNull("The Object Properties should not be null", prop);
 

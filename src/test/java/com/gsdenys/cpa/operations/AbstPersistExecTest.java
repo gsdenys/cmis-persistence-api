@@ -37,7 +37,7 @@ public class AbstPersistExecTest {
 
     @Before
     public void setUp() throws Exception {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("docs");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("sample");
         EntityManager em = emf.getEntityManager();
 
         Field field = EntityManagerImpl.class.getDeclaredField("cmisExec");
