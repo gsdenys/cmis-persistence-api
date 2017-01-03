@@ -8,6 +8,7 @@ import com.gsdenys.cpa.operations.parser.EntityParser;
 import org.apache.chemistry.opencmis.client.api.*;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 
+import javax.swing.text.html.parser.Parser;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -101,7 +102,22 @@ public class LocationExec {
             return entity;
         }
 
-        //TODO dopy Item
+        if (parser.getBaseType().equals(BaseType.ITEM)) {
+            Item item = (Item) session.getObject(entityId);
+            Folder target = (Folder) session.getObject(destId);
+
+            Map<String, Object> prop = new HashMap<>();
+
+            for (Property p : item.getProperties()) {
+                prop.put(p.getDisplayName(), p.getValue());
+            }
+
+            Item iRet = target.createItem(prop);
+            parserDest.setId(entityCopy, iRet.getId());
+            this.cmisExec.getPersistExec().refresh(entityCopy);
+
+            return entity;
+        }
 
         return null;
     }

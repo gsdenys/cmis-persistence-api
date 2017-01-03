@@ -159,20 +159,20 @@ public class EntityManagerFactory {
     }
 
     /**
-     * set the mapped repositories
-     *
-     * @param mappedRepository the mapped repository at properties file
-     */
-    protected void setMappedRepository(Map<String, String> mappedRepository) {
-        this.mappedRepository = mappedRepository;
-    }
-
-    /**
      * get all repositories already mapped at the repository configuration file
      *
      * @return Map the map containig the repositories map (name, id)
      */
     public Map<String, String> getMappedRepository() {
         return mappedRepository;
+    }
+
+    /**
+     * set the mapped repositories
+     *
+     * @param mappedRepository the mapped repository at properties file
+     */
+    protected void setMappedRepository(Map<String, String> mappedRepository) {
+        this.mappedRepository = mappedRepository;
     }
 }

@@ -1,10 +1,8 @@
 package com.gsdenys.cpa.persistence;
 
 import com.gsdenys.cpa.exception.CpaAnnotationException;
-import com.gsdenys.cpa.exception.CpaPersistenceException;
 import com.gsdenys.cpa.exception.CpaRuntimeException;
 import com.gsdenys.cpa.operations.CmisExec;
-import com.gsdenys.cpa.operations.parser.EntityParser;
 
 import java.lang.reflect.Field;
 import java.util.Map;
