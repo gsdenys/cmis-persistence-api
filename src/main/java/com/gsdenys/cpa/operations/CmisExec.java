@@ -63,7 +63,7 @@ public class CmisExec implements Cloneable {
      * @param repositoryId the repository ID
      * @throws CpaRuntimeException any error at runtime
      */
-    CmisExec(@NotNull String url, @NotNull  String user, @NotNull String password, @NotNull String repositoryId)
+    protected CmisExec(@NotNull String url, @NotNull  String user, @NotNull String password, @NotNull String repositoryId)
             throws CpaRuntimeException {
         parameter.put(SessionParameter.USER, user);
         parameter.put(SessionParameter.PASSWORD, password);
@@ -133,7 +133,7 @@ public class CmisExec implements Cloneable {
      * @return Session
      * the cmis session
      */
-    Session getSession() {
+    protected Session getSession() {
         this.createFactory();
 
         if (parameter.get(SessionParameter.REPOSITORY_ID) == null) {
@@ -147,11 +147,11 @@ public class CmisExec implements Cloneable {
         return this.factory.createSession(this.parameter);
     }
 
-    Map<String, String> getParameter() {
+    protected Map<String, String> getParameter() {
         return parameter;
     }
 
-    String getRepositoryId() {
+    protected String getRepositoryId() {
         return repositoryId;
     }
 
@@ -174,7 +174,7 @@ public class CmisExec implements Cloneable {
         this.repositoryId = repositoryId;
     }
 
-    SessionFactory getFactory() {
+    protected SessionFactory getFactory() {
         if (this.factory != null) {
             return this.factory;
         }
@@ -212,7 +212,7 @@ public class CmisExec implements Cloneable {
      * @throws CpaAnnotationException case any annotation was not correctly applied
      * @throws CpaRuntimeException    any error during runtime
      */
-    EntityParser getEntityParser(Class clazz) throws CpaAnnotationException, CpaRuntimeException {
+    protected EntityParser getEntityParser(Class clazz) throws CpaAnnotationException, CpaRuntimeException {
         if (docParserStore.containsKey(clazz)) {
             return docParserStore.get(clazz);
         }

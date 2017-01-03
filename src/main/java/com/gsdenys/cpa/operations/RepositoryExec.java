@@ -20,7 +20,7 @@ public class RepositoryExec {
      *
      * @param cmisExec the CMIS Executor
      */
-    RepositoryExec(CmisExec cmisExec) {
+    protected RepositoryExec(CmisExec cmisExec) {
         this.cmisExec = cmisExec;
     }
 
