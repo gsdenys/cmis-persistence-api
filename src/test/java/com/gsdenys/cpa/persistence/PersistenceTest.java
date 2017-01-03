@@ -17,6 +17,7 @@ package com.gsdenys.cpa.persistence;
 
 import com.github.gsdenys.CmisInMemoryRunner;
 import com.github.gsdenys.Configure;
+import com.gsdenys.cpa.exception.CpaRuntimeException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,5 +49,15 @@ public class PersistenceTest {
         Assert.assertNotNull("The factory2 should be not null!", factory2);
 
         Assert.assertSame("The factory and factory2 should be the same", factory, factory2);
+    }
+
+    @Test
+    public void Persistence() throws Exception {
+        try {
+            Persistence.class.newInstance();
+            Assert.fail("The Persistence class should not be instantiated.");
+        } catch (IllegalAccessException e) {
+            //nothing to do here
+        }
     }
 }

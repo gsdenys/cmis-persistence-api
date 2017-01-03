@@ -15,12 +15,10 @@
  */
 package com.gsdenys.cpa.operations;
 
-import com.gsdenys.cpa.annotations.BaseType;
 import com.gsdenys.cpa.exception.CpaAnnotationException;
 import com.gsdenys.cpa.exception.CpaRuntimeException;
 import com.gsdenys.cpa.operations.parser.EntityParser;
-import org.apache.chemistry.opencmis.client.api.Document;
-import org.apache.chemistry.opencmis.client.api.ObjectId;
+import com.sun.istack.NotNull;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.client.api.SessionFactory;
 import org.apache.chemistry.opencmis.client.runtime.SessionFactoryImpl;
@@ -41,24 +39,20 @@ public class CmisExec implements Cloneable {
 
     private static Map<Class, EntityParser> docParserStore;
 
-    private Map<String, String> parameter = new HashMap<>();
-
-    private String repositoryId;
-
-    private SessionFactory factory;
-
-    //executors
-    private RepositoryExec repositoryExec;
-    private PersistExec persistExec;
-    private LockExec lockExec;
-    private LocationExec locationExec;
-
-
     static {
         if (docParserStore == null) {
             docParserStore = new HashMap<>();
         }
     }
+
+    private Map<String, String> parameter = new HashMap<>();
+    private String repositoryId;
+    private SessionFactory factory;
+    //executors
+    private RepositoryExec repositoryExec;
+    private PersistExec persistExec;
+    private LockExec lockExec;
+    private LocationExec locationExec;
 
     /**
      * Default Builder
@@ -69,7 +63,7 @@ public class CmisExec implements Cloneable {
      * @param repositoryId the repository ID
      * @throws CpaRuntimeException any error at runtime
      */
-    public CmisExec(String url, String user, String password, String repositoryId)
+    CmisExec(@NotNull String url, @NotNull  String user, @NotNull String password, @NotNull String repositoryId)
             throws CpaRuntimeException {
         parameter.put(SessionParameter.USER, user);
         parameter.put(SessionParameter.PASSWORD, password);
@@ -139,7 +133,7 @@ public class CmisExec implements Cloneable {
      * @return Session
      * the cmis session
      */
-    protected Session getSession() {
+    Session getSession() {
         this.createFactory();
 
         if (parameter.get(SessionParameter.REPOSITORY_ID) == null) {
@@ -153,11 +147,11 @@ public class CmisExec implements Cloneable {
         return this.factory.createSession(this.parameter);
     }
 
-    protected Map<String, String> getParameter() {
+    Map<String, String> getParameter() {
         return parameter;
     }
 
-    protected String getRepositoryId() {
+    String getRepositoryId() {
         return repositoryId;
     }
 
@@ -180,7 +174,7 @@ public class CmisExec implements Cloneable {
         this.repositoryId = repositoryId;
     }
 
-    protected SessionFactory getFactory() {
+    SessionFactory getFactory() {
         if (this.factory != null) {
             return this.factory;
         }
@@ -216,10 +210,10 @@ public class CmisExec implements Cloneable {
      * @param clazz the class of the parser
      * @return EntityParser the parser
      * @throws CpaAnnotationException case any annotation was not correctly applied
-     * @throws CpaRuntimeException any error during runtime
+     * @throws CpaRuntimeException    any error during runtime
      */
-    protected EntityParser getEntityParser(Class clazz) throws CpaAnnotationException, CpaRuntimeException {
-        if (docParserStore.containsKey(clazz)){
+    EntityParser getEntityParser(Class clazz) throws CpaAnnotationException, CpaRuntimeException {
+        if (docParserStore.containsKey(clazz)) {
             return docParserStore.get(clazz);
         }
 
@@ -237,7 +231,8 @@ public class CmisExec implements Cloneable {
         CmisExec exec = (CmisExec) o;
 
         if (!parameter.equals(exec.parameter)) return false;
-        if (repositoryId != null ? !repositoryId.equals(exec.repositoryId) : exec.repositoryId != null) return false;
+        if (repositoryId != null ? !repositoryId.equals(exec.repositoryId) : exec.repositoryId != null)
+            return false;
         return factory != null ? factory.equals(exec.factory) : exec.factory == null;
     }
 

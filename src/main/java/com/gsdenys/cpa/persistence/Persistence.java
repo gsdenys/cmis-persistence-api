@@ -19,6 +19,7 @@ import com.gsdenys.cpa.exception.CpaConnectionException;
 import com.gsdenys.cpa.exception.CpaPersistenceException;
 import com.gsdenys.cpa.exception.CpaRuntimeException;
 import com.gsdenys.cpa.utils.PropertiesConnection;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +52,7 @@ public class Persistence {
      * Default builder as private to prevent the class initialization
      */
     private Persistence() {
-        //nothing to do here
+       //nothing to do here
     }
 
     /**

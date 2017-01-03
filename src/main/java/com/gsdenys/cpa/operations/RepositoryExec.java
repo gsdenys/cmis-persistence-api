@@ -3,7 +3,6 @@ package com.gsdenys.cpa.operations;
 import com.gsdenys.cpa.RootFolder;
 import com.gsdenys.cpa.exception.CpaAnnotationException;
 import com.gsdenys.cpa.exception.CpaRuntimeException;
-import com.gsdenys.cpa.operations.parser.EntityParser;
 import org.apache.chemistry.opencmis.client.api.Folder;
 import org.apache.chemistry.opencmis.client.api.Repository;
 import org.apache.chemistry.opencmis.client.api.Session;
@@ -11,9 +10,7 @@ import org.apache.chemistry.opencmis.commons.exceptions.CmisConnectionException;
 
 import java.util.List;
 
-/**
- * Created by gsdenys on 29/12/16.
- */
+
 public class RepositoryExec {
 
     protected CmisExec cmisExec;
@@ -23,7 +20,7 @@ public class RepositoryExec {
      *
      * @param cmisExec the CMIS Executor
      */
-    public RepositoryExec(CmisExec cmisExec) {
+    RepositoryExec(CmisExec cmisExec) {
         this.cmisExec = cmisExec;
     }
 
@@ -38,11 +35,10 @@ public class RepositoryExec {
     }
 
 
-    public RootFolder getRootFolder() throws CpaRuntimeException, CpaAnnotationException {
+    RootFolder getRootFolder() throws CpaRuntimeException, CpaAnnotationException {
         Session session = this.cmisExec.getSession();
         Folder folder = session.getRootFolder();
 
-        EntityParser<RootFolder> parser = new EntityParser<>(RootFolder.class);
         RootFolder rf = new RootFolder();
         rf.setId(folder.getId());
         rf.setName(folder.getName());
