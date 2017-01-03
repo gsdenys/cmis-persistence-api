@@ -21,6 +21,7 @@ import com.gsdenys.cpa.exception.CpaRuntimeException;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 
 import java.io.InputStream;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -363,6 +364,8 @@ public class EntityParser<T> extends AbstEntityParser<T> {
         try {
             entity = super.clazz.newInstance();
 
+
+            //TODO complexity
             for (Field field : super.clazz.getDeclaredFields()) {
                 String key = inverseMap.get(field.getName());
 
@@ -380,7 +383,7 @@ public class EntityParser<T> extends AbstEntityParser<T> {
                 }
 
                 if (field.isAnnotationPresent(Versioning.class)) {
-                    field.set(encode, versioning);
+                    field.set(entity, versioning);
                     continue;
                 }
 
@@ -417,7 +420,7 @@ public class EntityParser<T> extends AbstEntityParser<T> {
         super.properties.forEach((key, value) -> inverseMap.put(value, key));
 
         try {
-            entity = super.clazz.newInstance();
+           // entity = super.clazz.newInstance();
 
             for (Field field : super.clazz.getDeclaredFields()) {
                 String key = inverseMap.get(field.getName());
@@ -430,11 +433,11 @@ public class EntityParser<T> extends AbstEntityParser<T> {
                     continue;
                 }
             }
-        } catch (InstantiationException e) {
+        /*} catch (InstantiationException e) {
             throw new CpaRuntimeException(
                     "Unable to create a new instance of " + super.clazz.getSimpleName(),
                     e.getCause()
-            );
+            );*/
         } catch (IllegalAccessException e) {
             throw new CpaRuntimeException(
                     "Unable to access some " + super.clazz.getSimpleName() + " field",

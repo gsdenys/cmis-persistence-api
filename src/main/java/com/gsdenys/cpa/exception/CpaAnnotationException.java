@@ -23,12 +23,6 @@ package com.gsdenys.cpa.exception;
  * @since 0.0.1
  */
 public class CpaAnnotationException extends Exception {
-    /**
-     * Default Builder
-     */
-    public CpaAnnotationException() {
-        super();
-    }
 
     /**
      * Builder
@@ -47,14 +41,5 @@ public class CpaAnnotationException extends Exception {
      */
     public CpaAnnotationException(String message, Throwable cause) {
         super(message, cause);
-    }
-
-    /**
-     * Builder
-     *
-     * @param cause the cause of the error
-     */
-    public CpaAnnotationException(Throwable cause) {
-        super(cause);
     }
 }

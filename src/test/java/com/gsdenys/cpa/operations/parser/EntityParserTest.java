@@ -1,12 +1,17 @@
 package com.gsdenys.cpa.operations.parser;
 
+import com.github.gsdenys.CmisInMemoryRunner;
+import com.github.gsdenys.Configure;
 import com.gsdenys.cpa.annotations.BaseType;
 import com.gsdenys.cpa.annotations.VersioningType;
 import com.gsdenys.cpa.entities.Document;
+import org.apache.chemistry.opencmis.client.api.Property;
+import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.apache.cxf.helpers.IOUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -116,5 +121,20 @@ public class EntityParserTest {
 
         Assert.assertNotNull("The document shoul not be null", document);
         Assert.assertEquals("The entities should be equals", document, this.doc);
+    }
+
+    @Test
+    public void refreshProperty() throws Exception {
+        Map<String, Object> prop = new HashMap<>();
+        prop.put(PropertyIds.NAME, "test-case");
+
+        this.parser.refreshProperty(this.doc, prop);
+
+        Assert.assertNotNull("The entity should not be null", this.doc);
+        Assert.assertEquals(
+                "The name of entity should be 'test-case'",
+                this.doc.getName(),
+                "test-case"
+        );
     }
 }

@@ -25,13 +25,6 @@ package com.gsdenys.cpa.exception;
 public class CpaRuntimeException extends Exception {
 
     /**
-     * Default Builder
-     */
-    public CpaRuntimeException() {
-        super();
-    }
-
-    /**
      * Builder
      *
      * @param message the error message
@@ -48,14 +41,5 @@ public class CpaRuntimeException extends Exception {
      */
     public CpaRuntimeException(String message, Throwable cause) {
         super(message, cause);
-    }
-
-    /**
-     * Builder
-     *
-     * @param cause the cause of the error
-     */
-    public CpaRuntimeException(Throwable cause) {
-        super(cause);
     }
 }
