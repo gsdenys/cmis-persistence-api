@@ -44,7 +44,7 @@ public class CmisExecTest {
     @Before
     public void setUp() throws Exception {
         PropertiesConnection pcon = new PropertiesConnection();
-        Properties properties = pcon.loadPropertiesFile("sample");
+        Properties properties = pcon.loadPropertiesFile("docs");
 
         this.cmisExec = new CmisExec(
                 properties.getProperty(Persistence.PROP_URL),
@@ -57,7 +57,7 @@ public class CmisExecTest {
     @Test
     public void cmisExec1() throws Exception {
         PropertiesConnection pcon = new PropertiesConnection();
-        Properties properties = pcon.loadPropertiesFile("sample");
+        Properties properties = pcon.loadPropertiesFile("docs");
 
         CmisExec exec = new CmisExec(
                 properties.getProperty(Persistence.PROP_URL),
@@ -71,7 +71,7 @@ public class CmisExecTest {
     @Test
     public void cmisExec2() throws Exception {
         PropertiesConnection pcon = new PropertiesConnection();
-        Properties properties = pcon.loadPropertiesFile("sample");
+        Properties properties = pcon.loadPropertiesFile("docs");
 
         CmisExec exec = new CmisExec(
                 properties.getProperty(Persistence.PROP_URL),
@@ -115,7 +115,7 @@ public class CmisExecTest {
         }
 
         PropertiesConnection pcon = new PropertiesConnection();
-        Properties properties = pcon.loadPropertiesFile("sample");
+        Properties properties = pcon.loadPropertiesFile("docs");
 
         CmisExec exec = new CmisExec(
                 properties.getProperty(Persistence.PROP_URL),

@@ -166,6 +166,7 @@ abstract class AbstPersistExec {
         String mimeType;
 
         try {
+            //get mimmetype from stream
             mimeType = URLConnection.guessContentTypeFromStream(is);
             if (mimeType == null) {
                 mimeType = "text/plain";

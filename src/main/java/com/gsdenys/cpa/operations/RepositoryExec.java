@@ -35,7 +35,7 @@ public class RepositoryExec {
     }
 
 
-    RootFolder getRootFolder() throws CpaRuntimeException, CpaAnnotationException {
+    protected RootFolder getRootFolder() throws CpaRuntimeException, CpaAnnotationException {
         Session session = this.cmisExec.getSession();
         Folder folder = session.getRootFolder();
 

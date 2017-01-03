@@ -15,8 +15,7 @@ public class Folder {
     String name;
 
     @Parent
-    Folder parent;
-
+    String parent;
 
     public String getId() {
         return id;
@@ -34,11 +33,11 @@ public class Folder {
         this.name = name;
     }
 
-    public Folder getParent() {
+    public String getParent() {
         return parent;
     }
 
-    public void setParent(Folder parent) {
+    public void setParent(String parent) {
         this.parent = parent;
     }
 }

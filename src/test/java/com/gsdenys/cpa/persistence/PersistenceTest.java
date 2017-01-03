@@ -17,7 +17,6 @@ package com.gsdenys.cpa.persistence;
 
 import com.github.gsdenys.CmisInMemoryRunner;
 import com.github.gsdenys.Configure;
-import com.gsdenys.cpa.exception.CpaRuntimeException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,10 +41,10 @@ public class PersistenceTest {
     @Test
     public void createEntityManagerFactory() throws Exception {
 
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("sample");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("docs");
         Assert.assertNotNull("The factory should be not null!", factory);
 
-        EntityManagerFactory factory2 = Persistence.createEntityManagerFactory("sample");
+        EntityManagerFactory factory2 = Persistence.createEntityManagerFactory("docs");
         Assert.assertNotNull("The factory2 should be not null!", factory2);
 
         Assert.assertSame("The factory and factory2 should be the same", factory, factory2);

@@ -16,6 +16,7 @@
 package com.gsdenys.cpa.operations;
 
 import com.gsdenys.cpa.annotations.BaseType;
+import com.gsdenys.cpa.annotations.Entity;
 import com.gsdenys.cpa.exception.CpaAnnotationException;
 import com.gsdenys.cpa.exception.CpaRuntimeException;
 import com.gsdenys.cpa.operations.parser.EntityParser;
@@ -166,6 +167,7 @@ public class PersistExec extends AbstPersistExec {
      */
     public <E> Map<String, Object> getProperties(final E entity)
             throws CpaAnnotationException, CpaRuntimeException {
-        return super.cmisExec.getPersistExec().getProperties(entity);
+        EntityParser parser = super.cmisExec.getEntityParser(entity.getClass());
+        return parser.getProperties(entity);
     }
 }

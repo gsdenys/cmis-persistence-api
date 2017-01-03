@@ -2,6 +2,7 @@ package com.gsdenys.cpa.persistence;
 
 import com.github.gsdenys.CmisInMemoryRunner;
 import com.github.gsdenys.Configure;
+import com.gsdenys.cpa.utils.PropertiesConnection;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,10 +11,9 @@ import org.junit.runner.RunWith;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
-/**
- * Created by gsdenys on 14/12/16.
- */
+
 @RunWith(CmisInMemoryRunner.class)
 @Configure(port = 8080)
 public class EntityManagerFactoryTest {
@@ -21,7 +21,7 @@ public class EntityManagerFactoryTest {
 
     @Before
     public void setUp() throws Exception {
-        emf = Persistence.createEntityManagerFactory("sample");
+        emf = Persistence.createEntityManagerFactory("docs");
     }
 
     @Test
@@ -58,5 +58,21 @@ public class EntityManagerFactoryTest {
         } catch (Exception e) {
             Assert.assertFalse("This method should not return error", true);
         }
+    }
+
+    @Test
+    public void EntityManagerFactory() throws Exception {
+        PropertiesConnection pCon = new PropertiesConnection();
+        Properties p = pCon.loadPropertiesFile("docs");
+
+        EntityManagerFactory factory = new EntityManagerFactory(
+                p.getProperty(Persistence.PROP_URL),
+                p.getProperty(Persistence.PROP_USER),
+                p.getProperty(Persistence.PROP_PASSWRD),
+                null
+        );
+
+        EntityManager em = factory.getEntityManager();
+        Assert.assertNotNull("The EntityManagerImpl shoud no be null", em);
     }
 }
