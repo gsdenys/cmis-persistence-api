@@ -9,13 +9,13 @@ import com.github.gsdenys.cpa.annotations.*;
 public class Folder {
 
     @ID
-    String id;
+    private String id;
 
     @Metadata(name = "cmis:name", mandatory = true)
-    String name;
+    private String name;
 
     @Parent
-    String parent;
+    private String parent;
 
     public String getId() {
         return id;

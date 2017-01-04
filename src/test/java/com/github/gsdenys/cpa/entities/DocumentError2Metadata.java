@@ -11,18 +11,18 @@ import java.io.InputStream;
 public class DocumentError2Metadata {
 
     @ID
-    String id;
+    private String id;
 
     @Parent
-    String parent;
+    private String parent;
 
 
     @Metadata(name = "cmis:name", mandatory = true)
-    String name;
+    private String name;
 
     @Metadata(name = "cmis:name", mandatory = true)
-    String name2;
+    private String name2;
 
     @Content
-    InputStream content;
+    private InputStream content;
 }

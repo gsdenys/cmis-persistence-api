@@ -11,21 +11,21 @@ import java.io.InputStream;
 public class DocumentErrorMetadataEncode {
 
     @ID
-    String id;
+    private String id;
 
     @Parent
-    String parent;
+    private String parent;
 
     @Encode
     @Metadata(name = "cmis:name", mandatory = true)
-    String name;
+    private String name;
 
     @Content
-    InputStream content;
+    private InputStream content;
 
     @Encode
-    String encode;
+    private String encode;
 
     @Versioning
-    VersioningType versioningType;
+    private VersioningType versioningType;
 }

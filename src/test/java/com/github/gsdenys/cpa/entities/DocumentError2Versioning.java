@@ -11,23 +11,23 @@ import java.io.InputStream;
 public class DocumentError2Versioning {
 
     @ID
-    String id;
+    private String id;
 
     @Parent
-    String parent;
+    private String parent;
 
     @Metadata(name = "cmis:name", mandatory = true)
-    String name;
+    private String name;
 
     @Content
-    InputStream content;
+    private InputStream content;
 
     @Encode
-    String encode;
+    private String encode;
 
     @Versioning
-    VersioningType versioningType;
+    private VersioningType versioningType;
 
     @Versioning
-    VersioningType versioningType2;
+    private VersioningType versioningType2;
 }

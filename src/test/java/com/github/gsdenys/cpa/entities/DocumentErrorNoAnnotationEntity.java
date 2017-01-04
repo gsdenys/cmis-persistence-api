@@ -13,16 +13,16 @@ import java.io.InputStream;
 public class DocumentErrorNoAnnotationEntity {
 
     @ID
-    String id;
+    private String id;
 
     @Parent
-    String parent;
+    private String parent;
 
     @Metadata(name = "cmis:name", mandatory = true)
-    String name;
+    private String name;
 
     @Content
-    InputStream content;
+    private InputStream content;
 
 
     public String getId() {

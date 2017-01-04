@@ -11,23 +11,23 @@ import java.io.InputStream;
 public class DocumentError2ID {
 
     @ID
-    String id;
+    private String id;
 
     @ID
-    String id2;
+    private String id2;
 
     @Parent
-    String parent;
+    private String parent;
 
     @Metadata(name = "cmis:name", mandatory = true)
-    String name;
+    private String name;
 
     @Content
-    InputStream content;
+    private InputStream content;
 
     @Encode
-    String encode;
+    private String encode;
 
     @Versioning
-    VersioningType versioningType;
+    private VersioningType versioningType;
 }
