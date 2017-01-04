@@ -66,7 +66,7 @@ abstract class AbstPersistExec {
      * @throws CpaPersistenceException when occur an error during the persistence phase
      */
     protected <E> void update(E entity, EntityParser parser, Session session)
-            throws CpaAnnotationException, CpaPersistenceException {
+            throws CpaAnnotationException, CpaRuntimeException {
 
         //TODO add here the error when content management do not permit to update less checkout
 
@@ -80,7 +80,7 @@ abstract class AbstPersistExec {
         cmisObject.updateProperties(properties);
 
         //update parent (move)
-        //TODO test about change parent
+        this.cmisExec.getLocationExec().move(entity);
 
         //update content
         if (baseType.equals(BaseType.DOCUMENT)) {
