@@ -153,16 +153,12 @@ public class EntityManagerFactory {
     /**
      * Validate if the connection with content manager is ok and if the repository is accessible
      *
-     * @param cmisExec cmis executor
-     * @return boolean
-     * if CMIS is accessible or not
+     * @param exec cmis executor
+     * @return boolean if CMIS is accessible or not
      */
-    private boolean validateConnection(CmisExec cmisExec) throws CpaConnectionException {
-
-        List<Repository> repo;
-
+    private boolean validateConnection(CmisExec exec) throws CpaConnectionException {
         try {
-            repo = this.cmisExec.getRepositoryExec().listRepositories();
+            exec.getRepositoryExec().listRepositories();
         } catch (CmisConnectionException cmisConnectionException) {
             throw new CpaConnectionException(
                     "The CMIS service is not accessible. Check the url, user and password at the properties file",

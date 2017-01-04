@@ -32,9 +32,6 @@ public class RootFolder {
     @ID
     private String id;
 
-/*    @Parent
-    private String parent = null;*/
-
     @Metadata(name = "cmis:name")
     private String name;
 
